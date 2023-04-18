@@ -1,0 +1,84 @@
+.body {
+  background: linear-gradient(to right, #24c6dc, #514a9d);
+  justify-content: center;
+
+  align-items: center;
+}
+
+.card {
+  margin-top: 150px;
+  position: relative;
+  width: 900px;
+  height: auto;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  border-top: 3px solid rgba(255, 255, 255, 0.5);
+  transition: 1s;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card p {
+  margin-top: 30px;
+  margin-bottom: 350px;
+  font-size: 20px;
+  float: left;
+  word-break: keep-all;
+  text-align: left;
+}
+
+.card h2 {
+  margin-top: 50px;
+}
+
+.problem label {
+  margin-top: 30px;
+}
+
+.side {
+  margin: auto;
+  position: fixed;
+  right: 20px;
+  width: 150px;
+  height: 300px;
+  background-color: aquamarine;
+  top: 300px;
+}
+
+.side div {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidespan {
+  background-color: #fff;
+}
+
+.middel {
+  height: 500px;
+}
+
+.subtext {
+  left: 30px;
+  width: 800px;
+  height: auto;
+  background-color: white;
+  border: solid 1px black;
+  font-size: 30px;
+  display: none;
+  transition: all ease 0.5s;
+  position: absolute;
+}
+
+.title {
+  color: blue;
+}
+
+.title:hover + .subtext {
+  display: block;
+}
