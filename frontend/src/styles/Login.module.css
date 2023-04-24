@@ -35,13 +35,13 @@ span a {
   height: 300px;
 }
 
-form {
+.forma {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
 }
 
-form div {
+.forma div {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;

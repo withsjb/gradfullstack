@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Secret from "./pages/Secret";
 import "react-toastify/dist/ReactToastify.css";
 import Problem from "./pages/problem";
+import Test from "./pages/test";
 import Page2 from "./pages/page2";
 import Mainpage from "./pages/mainpage";
 import Roadmap from "./pages/roadmap";
@@ -23,6 +24,8 @@ import Modalknow from "./component/Modalknow";
 import Side from "./component/Side";
 import Page from "./component/Page";
 import Select from "./pages/select/select";
+import AddProblem from "./component/problem/AddProblem";
+import Changeproblem from "./component/problem/changeproblem";
 
 export default function App() {
   return (
@@ -32,7 +35,10 @@ export default function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/" element={<Secret />} />
         <Route path="/mainpage" element={<Mainpage />}></Route>
+        <Route path="/test" element={<Test />}></Route>
         <Route path="/problem" element={<Problem />}></Route>
+        <Route path="/addproblem" element={<AddProblem />}></Route>
+        <Route path="/changeproblem" element={<Changeproblem />}></Route>
         <Route path="/page2" element={<Page2 />}></Route>
         <Route path="/linuxstudy" element={<Linuxstudy />}></Route>
         <Route path="/roadmap" element={<Roadmap />}></Route>

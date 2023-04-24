@@ -31,8 +31,7 @@ export default function Roaddetail() {
 
         {isOpen && (
           <div>
-            <h1 className={Styles.intro}>소개</h1>
-            <h1 className={Styles.intro}>소개2</h1>
+            <h1 className={Styles.introa}>서론</h1>
           </div>
         )}
       </div>

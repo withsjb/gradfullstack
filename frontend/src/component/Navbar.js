@@ -34,7 +34,7 @@ const Navbar = () => {
       <nav className={Styles.navbar}>
         <Link to="/">
           <h3 className={Styles.logo}>
-            <img src="images/secu.png"></img> Logo
+            <img src="images/logo.png"></img>
           </h3>
         </Link>
         <ul
@@ -46,7 +46,11 @@ const Navbar = () => {
             <ul className={Styles.dropmenu}>
               <Link to="/roadmap">
                 {" "}
-                <li>roadmap1</li>{" "}
+                <li>roadmap</li>{" "}
+              </Link>
+              <Link to="/roadmap">
+                {" "}
+                <li>batch file</li>{" "}
               </Link>
               <Link to="/linuxstudy">
                 {" "}
@@ -59,13 +63,39 @@ const Navbar = () => {
           </li>
 
           <li className={Styles.navli}>
-            wargame
+            OS
+            <ul className={Styles.dropmenu}>
+              <Link to="/roadmap">
+                {" "}
+                <li>윈도우 기초개념</li>{" "}
+              </Link>
+              <Link to="/linuxstudy">
+                {" "}
+                <li>리눅스 기초개념</li>
+              </Link>
+              <Link to="/select">
+                <li>윈도우</li>
+              </Link>
+              <Link to="/select">
+                <li>리눅스</li>
+              </Link>
+              <Link to="/select">
+                <li>Testbed</li>
+              </Link>
+            </ul>{" "}
+          </li>
+
+          <li className={Styles.navli}>
+            Quiz
             <ul className={Styles.dropmenu}>
               <Link to="/problem">
                 {" "}
                 <li>wargame1</li>{" "}
               </Link>
-              <li>wargame2</li>
+              <Link to="/page1">
+                {" "}
+                <li>wargame1</li>{" "}
+              </Link>
               <li>wargame3</li>
             </ul>{" "}
           </li>

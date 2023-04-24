@@ -31,10 +31,10 @@ export default function Roaddetail() {
 
         {isOpen && (
           <div>
-            <h1 className={Styles.intro}>리눅스 구조1</h1>
-            <h1 className={Styles.intro}>리눅스 구조2</h1>
-            <h1 className={Styles.intro}>리눅스 구조3</h1>
-            <h1 className={Styles.intro}>리눅스 구조4</h1>
+            <h1 className={Styles.introa}>리눅스 구조1</h1>
+            <h1 className={Styles.introa}>리눅스 구조2</h1>
+            <h1 className={Styles.introa}>리눅스 구조3</h1>
+            <h1 className={Styles.introa}>리눅스 구조4</h1>
           </div>
         )}
       </div>

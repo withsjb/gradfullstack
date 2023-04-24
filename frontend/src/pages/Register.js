@@ -46,7 +46,7 @@ function Register() {
     <div className={Styles.body}>
       <div className={Styles.container}>
         <h2>Register Account</h2>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form className={Styles.forma} onSubmit={(e) => handleSubmit(e)}>
           <div className={Styles.formbox}>
             <label htmlFor="email">Email</label>
             <input

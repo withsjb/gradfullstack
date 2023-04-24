@@ -31,10 +31,10 @@ export default function Roaddetail() {
 
         {isOpen && (
           <div>
-            <h1 className={Styles.intro}>쉘 스크립트1</h1>
-            <h1 className={Styles.intro}>쉘 스크립트2</h1>
-            <h1 className={Styles.intro}>쉘 스크립트3</h1>
-            <h1 className={Styles.intro}>쉘 스크립트4</h1>
+            <h1 className={Styles.introa}>쉘 스크립트1</h1>
+            <h1 className={Styles.introa}>쉘 스크립트2</h1>
+            <h1 className={Styles.introa}>쉘 스크립트3</h1>
+            <h1 className={Styles.introa}>쉘 스크립트4</h1>
           </div>
         )}
       </div>

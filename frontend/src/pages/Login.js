@@ -46,7 +46,7 @@ function Login() {
     <div className={Styles.body}>
       <div className={Styles.container}>
         <h2>Login to your Account</h2>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form className={Styles.forma} onSubmit={(e) => handleSubmit(e)}>
           <div className={Styles.formbox}>
             <label htmlFor="email">Email</label>
             <input

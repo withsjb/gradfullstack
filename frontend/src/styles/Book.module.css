@@ -7,10 +7,6 @@
   justify-content: center;
 }
 
-input {
-  display: none;
-}
-
 .book {
   width: 300px;
   height: 550px;

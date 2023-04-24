@@ -1,4 +1,5 @@
 const UserModel = require("../Models/UserModel");
+const Problem = require("../Models/Problem");
 const jwt = require("jsonwebtoken");
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -60,5 +61,68 @@ module.exports.login = async (req, res) => {
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, status: false });
+  }
+};
+
+module.exports.problem = async (req, res) => {
+  try {
+    const problems = await Problem.find();
+    res.json(problems);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+module.exports.addproblem = async (req, res) => {
+  try {
+    const problem = new Problem(req.body);
+    await problem.save();
+    res.json(problem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+module.exports.returnproblem = async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+    if (!problem) {
+      return res.status(404).json({ msg: "Problem not found" });
+    }
+    res.json(problem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+module.exports.correctionproblem = async (req, res) => {
+  try {
+    const problem = await Problem.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!problem) {
+      return res.status(404).json({ msg: "Problem not found" });
+    }
+    res.json(problem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+module.exports.deleteproblem = async (req, res) => {
+  try {
+    const problem = await Problem.findByIdAndDelete(req.params.id);
+    if (!problem) {
+      return res.status(404).json({ msg: "Problem not found" });
+    }
+    res.json({ msg: "Problem deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
   }
 };
