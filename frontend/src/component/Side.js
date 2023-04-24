@@ -10,16 +10,16 @@ const Side = () => {
     <SideDiv className={Styles.side}>
       <div>
         <Link to="1" spy={true} smooth={true}>
-          <span className={Styles.sidespan}>1.학습개요</span>
+          <span>1.학습개요</span>
         </Link>
         <Link to="2" spy={true} smooth={true}>
-          <span className={Styles.sidespan}>2.점검 및 조치</span>
+          <span>2.점검 및 조치</span>
         </Link>
         <Link to="3" spy={true} smooth={true}>
-          <span className={Styles.sidespan}>3.조치 요약</span>
+          <span>3.조치 요약</span>
         </Link>
         <Link to="4" spy={true} smooth={true}>
-          <span className={Styles.sidespan}>4.문제 풀이</span>
+          <span>4.문제 풀이</span>
         </Link>
       </div>
     </SideDiv>
