@@ -9,6 +9,17 @@ const problemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  choices: [
+    {
+      type: [String],
+      required: true,
+    },
+  ],
+  answer: {
+    type: String,
+    required: true,
+  },
+
   tags: [String],
   difficulty: {
     type: String,

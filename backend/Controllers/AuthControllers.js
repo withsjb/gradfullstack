@@ -74,6 +74,21 @@ module.exports.problem = async (req, res) => {
   }
 };
 
+module.exports.answer = async (req, res) => {
+  const { problemId, answer } = req.body;
+  try {
+    const problem = await Problem.findById(problemId);
+    if (problem.answer === answer) {
+      res.send("정답입니다!");
+    } else {
+      res.send("오답입니다.");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 에러");
+  }
+};
+
 module.exports.addproblem = async (req, res) => {
   try {
     const problem = new Problem(req.body);

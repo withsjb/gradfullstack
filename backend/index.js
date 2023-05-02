@@ -4,9 +4,14 @@ const mongoose = require("mongoose");
 const authRoutes = require("./Routes/AuthRoutes");
 const app = express();
 const cookieParser = require("cookie-parser");
+const { config } = require("dotenv");
+const morgan = require("morgan");
 
-app.listen(4000, () => {
-  console.log("Server Started on port 4000");
+/** app port*/
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`Server connected to http://localhost:${port}`);
 });
 
 mongoose
@@ -28,6 +33,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(morgan("tiny"));
+app.use(express.json());
+config();
 
 app.use(cookieParser());
 app.use(express.json());

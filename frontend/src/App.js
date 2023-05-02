@@ -6,6 +6,9 @@ import Secret from "./pages/Secret";
 import "react-toastify/dist/ReactToastify.css";
 import Problem from "./pages/problem";
 import Test from "./pages/test";
+import Quizmain from "./pages/Quizmain";
+import Quiz from "./component/problem/Quiz";
+import Result from "./component/problem/Result";
 import Page2 from "./pages/page2";
 import Mainpage from "./pages/mainpage";
 import Roadmap from "./pages/roadmap";
@@ -26,6 +29,7 @@ import Page from "./component/Page";
 import Select from "./pages/select/select";
 import AddProblem from "./component/problem/AddProblem";
 import Changeproblem from "./component/problem/changeproblem";
+import { CheckUserExit } from "./helper/helper";
 
 export default function App() {
   return (
@@ -36,6 +40,25 @@ export default function App() {
         <Route exact path="/" element={<Secret />} />
         <Route path="/mainpage" element={<Mainpage />}></Route>
         <Route path="/test" element={<Test />}></Route>
+        <Route path="/quizmain" element={<Quizmain />}></Route>
+        <Route
+          path="/quiz"
+          element={
+            <CheckUserExit>
+              {" "}
+              <Quiz />{" "}
+            </CheckUserExit>
+          }
+        ></Route>
+        <Route
+          path="/result"
+          element={
+            <CheckUserExit>
+              {" "}
+              <Result />{" "}
+            </CheckUserExit>
+          }
+        ></Route>
         <Route path="/problem" element={<Problem />}></Route>
         <Route path="/addproblem" element={<AddProblem />}></Route>
         <Route path="/changeproblem" element={<Changeproblem />}></Route>
