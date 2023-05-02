@@ -16,7 +16,7 @@ export default function Questions({ onChecked }) {
   const result = useSelector((state) => state.result.result);
   const [{ isLoading, apiData, serverError }] = useFetchQuestions();
 
-  useSelector((state) => console.log(state)); //상태 콘솔로그 찍기
+  //useSelector((state) => console.log(state)); //상태 콘솔로그 찍기
 
   const questions = useSelector(
     (state) => state.questions.queue[state.questions.trace]
@@ -41,7 +41,7 @@ export default function Questions({ onChecked }) {
 
   return (
     <div className={Styles.questions}>
-      <h2 className={Styles.textlight}>{questions?.questions}</h2>
+      <h2 className={Styles.textlight}>{questions?.questions1}</h2>
       <h2 className={Styles.textlight}>{questions?.text}</h2>
       <ul key={questions?.id}>
         {questions?.options.map((q, i) => (

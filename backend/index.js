@@ -14,11 +14,10 @@ app.listen(port, () => {
   console.log(`Server connected to http://localhost:${port}`);
 });
 
+config();
+
 mongoose
-  .connect(
-    "mongodb+srv://withsjb:as7170882@cluster0.ub4j94d.mongodb.net/?retryWrites=true&w=majority",
-    {}
-  )
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("DB Connection Successfull");
   })
@@ -35,8 +34,6 @@ app.use(
 );
 
 app.use(morgan("tiny"));
-app.use(express.json());
-config();
 
 app.use(cookieParser());
 app.use(express.json());

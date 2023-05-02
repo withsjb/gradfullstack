@@ -1,6 +1,12 @@
 const UserModel = require("../Models/UserModel");
 const Problem = require("../Models/Problem");
 const jwt = require("jsonwebtoken");
+const Questions = require("../Models/questionModel");
+const Results = require("../Models/resultModel");
+const questions = require("../database/data");
+const text = require("../database/data");
+const difficulty = require("../database/data");
+const { answers } = require("../database/data");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -64,80 +70,62 @@ module.exports.login = async (req, res) => {
   }
 };
 
-module.exports.problem = async (req, res) => {
+/** get all questions */
+module.exports.getQuestion = async (req, res) => {
   try {
-    const problems = await Problem.find();
-    res.json(problems);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    const q = await Questions.find();
+    res.json(q);
+  } catch (error) {
+    res.json(error);
   }
 };
 
-module.exports.answer = async (req, res) => {
-  const { problemId, answer } = req.body;
+/**insert all questions */
+module.exports.insertQuestions = async (req, res) => {
   try {
-    const problem = await Problem.findById(problemId);
-    if (problem.answer === answer) {
-      res.send("정답입니다!");
-    } else {
-      res.send("오답입니다.");
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("서버 에러");
+    await Questions.create({ questions, answers, text });
+    res.json({ msg: "Data Saved Successfully...!" });
+  } catch (error) {
+    res.json({ error });
   }
 };
 
-module.exports.addproblem = async (req, res) => {
+module.exports.dropQuestions = async (req, res) => {
   try {
-    const problem = new Problem(req.body);
-    await problem.save();
-    res.json(problem);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    await Questions.deleteMany();
+    res.json({ msg: "Questions Deleted Successfully...!" });
+  } catch (error) {
+    res.json({ error });
   }
 };
 
-module.exports.returnproblem = async (req, res) => {
+//**result부분 */
+module.exports.getResult = async (req, res) => {
   try {
-    const problem = await Problem.findById(req.params.id);
-    if (!problem) {
-      return res.status(404).json({ msg: "Problem not found" });
-    }
-    res.json(problem);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    const r = await Results.find();
+    res.json(r);
+  } catch (error) {
+    res.json({ error });
   }
 };
 
-module.exports.correctionproblem = async (req, res) => {
+module.exports.storeResult = async (req, res) => {
   try {
-    const problem = await Problem.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!problem) {
-      return res.status(404).json({ msg: "Problem not found" });
-    }
-    res.json(problem);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    const { username, result, attempts, points, achieved } = req.body;
+    if (!username || !result) throw new Error("Data Not Provided...!");
+
+    await Results.create({ username, result, attempts, points, achieved });
+    res.json({ msg: "Result Saved Successfully...!" });
+  } catch (error) {
+    res.json({ error });
   }
 };
 
-module.exports.deleteproblem = async (req, res) => {
+module.exports.dropResult = async (req, res) => {
   try {
-    const problem = await Problem.findByIdAndDelete(req.params.id);
-    if (!problem) {
-      return res.status(404).json({ msg: "Problem not found" });
-    }
-    res.json({ msg: "Problem deleted" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
+    await Results.deleteMany();
+    res.json({ msg: "Result Deleted Successfully...!" });
+  } catch (error) {
+    res.json({ error });
   }
 };

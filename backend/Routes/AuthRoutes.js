@@ -5,6 +5,12 @@ const {
   addproblem,
   deleteproblem,
   correctionproblem,
+  getQuestion,
+  insertQuestions,
+  dropQuestions,
+  getResult,
+  storeResult,
+  dropResult,
 } = require("../Controllers/AuthControllers");
 const { checkUser } = require("../Middlewares/AuthMiddlewares");
 const { problem } = require("../Controllers/AuthControllers");
@@ -17,12 +23,12 @@ const router = require("express").Router();
 router.post("/", checkUser);
 router.post("/register", register);
 router.post("/login", login);
-router.post("/problem", addproblem);
-router.get("/problem", problem);
 
-router.post("/answer", answer);
-router.get("/problem:id", returnproblem);
-router.put("/problem:id", correctionproblem);
-router.delete("/problem:id", deleteproblem);
+router
+  .route("/questions")
+  .get(getQuestion)
+  .post(insertQuestions)
+  .delete(dropQuestions);
+router.route("/result").get(getResult).post(storeResult).delete(dropResult);
 
 module.exports = router;

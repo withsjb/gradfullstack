@@ -14,6 +14,7 @@ export const questionReducer = createSlice({
       return {
         ...state,
         queue: question,
+
         answers,
       };
     },
@@ -32,6 +33,7 @@ export const questionReducer = createSlice({
     resetAllAction: () => {
       return {
         queue: [],
+
         answers: [],
         trace: 0,
       };
