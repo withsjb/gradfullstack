@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const resultModel = new mongoose.Schema({
+const resultModel = new Schema({
   username: { type: String },
   result: { type: Array, default: [] },
   attempts: { type: Number, default: 0 },

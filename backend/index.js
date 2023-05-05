@@ -25,6 +25,8 @@ mongoose
     console.log(err.message);
   });
 
+app.use(morgan("tiny"));
+
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -32,8 +34,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(morgan("tiny"));
 
 app.use(cookieParser());
 app.use(express.json());

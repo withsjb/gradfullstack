@@ -29,7 +29,7 @@ import Page from "./component/Page";
 import Select from "./pages/select/select";
 import AddProblem from "./component/problem/AddProblem";
 import Changeproblem from "./component/problem/changeproblem";
-import { CheckUserExit } from "./helper/helper";
+import { CheckUserExist } from "./helper/helper";
 
 export default function App() {
   return (
@@ -44,19 +44,19 @@ export default function App() {
         <Route
           path="/quiz"
           element={
-            <CheckUserExit>
+            <CheckUserExist>
               {" "}
               <Quiz />{" "}
-            </CheckUserExit>
+            </CheckUserExist>
           }
         ></Route>
         <Route
           path="/result"
           element={
-            <CheckUserExit>
+            <CheckUserExist>
               {" "}
               <Result />{" "}
-            </CheckUserExit>
+            </CheckUserExist>
           }
         ></Route>
         <Route path="/problem" element={<Problem />}></Route>

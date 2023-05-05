@@ -1,48 +1,37 @@
-const quizData = [
+const questions = [
   {
     id: 1,
-    text: " 💡 1212122 ",
-
-    questions: "javascript is an __________ language",
+    question: "진빈의 코드",
     options: ["Object-Oriented", "Object-Based", "Procedural"],
   },
-
   {
     id: 2,
-    text: " 💡 14141234. ",
-
-    questions: "javascript is an11 __________ language",
-    options: ["Object-Oriented", "Object-Based", "Procedural"],
+    question:
+      "Following methods can be used to display data in some form using Javascript",
+    options: ["document.write()", "console.log()", "window.alert()"],
   },
-
   {
     id: 3,
-    text: " 💡 3333333. ",
-
-    questions: "javascript is an __________ language",
-    options: ["Object-Oriented", "Object-Based", "Procedural"],
+    question:
+      "When an operator value is NULL, the typeof returned by the unary operator is:",
+    options: ["Boolean", "Undefined", "Object"],
   },
-
   {
     id: 4,
-    text: " 💡 111111111",
-
-    questions: "javascript is an __________ language",
-    options: ["Object-Oriented", "Object-Based", "Procedural"],
+    question: "What does the toString() method return?",
+    options: ["Return Object", "Return String", "Return Integer"],
   },
-
   {
     id: 5,
-    text: " 💡 12121212. ",
-
-    questions: "javascript is an __________ language",
-    options: ["Object-Oriented", "Object-Based", "Procedural"],
+    question:
+      "Which function is used to serialize an object into a JSON string?",
+    options: ["stringify()", "parse()", "convert()"],
   },
 ];
 
 const answers = [0, 1, 2, 1, 0];
 
 module.exports = {
-  quizData,
+  questions,
   answers,
 };

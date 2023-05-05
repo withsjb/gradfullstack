@@ -88,7 +88,7 @@ const Navbar = () => {
           <li className={Styles.navli}>
             Quiz
             <ul className={Styles.dropmenu}>
-              <Link to="/problem">
+              <Link to="/quizmain">
                 {" "}
                 <li>wargame1</li>{" "}
               </Link>

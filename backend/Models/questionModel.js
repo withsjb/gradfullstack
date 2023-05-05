@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const questionModel = new mongoose.Schema({
-  questions: { type: Array, default: [] },
-  text: {
-    type: Array,
-    default: [],
-  },
-
+const questionModel = new Schema({
+  questions: { type: Array, default: [] }, // create question with [] default value
   answers: { type: Array, default: [] },
-
   createdAt: { type: Date, default: Date.now },
 });
 

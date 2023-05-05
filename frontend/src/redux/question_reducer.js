@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/** create reducer  next 버튼 클릭으로 문제가 바뀔시 트레이스가 증가*/
+/** create reducer */
 export const questionReducer = createSlice({
   name: "questions",
   initialState: {
@@ -14,7 +14,6 @@ export const questionReducer = createSlice({
       return {
         ...state,
         queue: question,
-
         answers,
       };
     },
@@ -33,7 +32,6 @@ export const questionReducer = createSlice({
     resetAllAction: () => {
       return {
         queue: [],
-
         answers: [],
         trace: 0,
       };

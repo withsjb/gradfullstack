@@ -1,12 +1,8 @@
 const UserModel = require("../Models/UserModel");
-const Problem = require("../Models/Problem");
 const jwt = require("jsonwebtoken");
 const Questions = require("../Models/questionModel");
 const Results = require("../Models/resultModel");
-const questions = require("../database/data");
-const text = require("../database/data");
-const difficulty = require("../database/data");
-const { answers } = require("../database/data");
+const { questions: questions, answers } = require("../database/data.js");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -80,10 +76,22 @@ module.exports.getQuestion = async (req, res) => {
   }
 };
 
+module.exports.randomQuestion = async (req, res) => {
+  try {
+    const q = await Questions.find();
+    const shuffledQuestions = q.sort(() => 0.5 - Math.random());
+    const selectedQuestions = shuffledQuestions.slice(0, 3);
+    res.json(selectedQuestions);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "server Error" });
+  }
+};
+
 /**insert all questions */
 module.exports.insertQuestions = async (req, res) => {
   try {
-    await Questions.create({ questions, answers, text });
+    await Questions.create({ questions, answers });
     res.json({ msg: "Data Saved Successfully...!" });
   } catch (error) {
     res.json({ error });
@@ -111,10 +119,10 @@ module.exports.getResult = async (req, res) => {
 
 module.exports.storeResult = async (req, res) => {
   try {
-    const { username, result, attempts, points, achieved } = req.body;
+    const { username, result, attempts, points, achived } = req.body;
     if (!username || !result) throw new Error("Data Not Provided...!");
 
-    await Results.create({ username, result, attempts, points, achieved });
+    await Results.create({ username, result, attempts, points, achived });
     res.json({ msg: "Result Saved Successfully...!" });
   } catch (error) {
     res.json({ error });
