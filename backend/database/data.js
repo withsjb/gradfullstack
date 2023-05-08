@@ -1,30 +1,32 @@
 const questions = [
   {
     id: 1,
+    text: 11111111111,
     question: "진빈의 코드",
     options: ["Object-Oriented", "Object-Based", "Procedural"],
   },
   {
     id: 2,
-    question:
-      "Following methods can be used to display data in some form using Javascript",
+    text: 11111111111,
+    question: "222222222222222222",
     options: ["document.write()", "console.log()", "window.alert()"],
   },
   {
     id: 3,
-    question:
-      "When an operator value is NULL, the typeof returned by the unary operator is:",
+    text: 11111111111,
+    question: "33333333333333333333",
     options: ["Boolean", "Undefined", "Object"],
   },
   {
     id: 4,
-    question: "What does the toString() method return?",
+    text: 11111111111,
+    question: "444444444444444444",
     options: ["Return Object", "Return String", "Return Integer"],
   },
   {
     id: 5,
-    question:
-      "Which function is used to serialize an object into a JSON string?",
+    text: 11111111111,
+    question: "555555555555555555555555",
     options: ["stringify()", "parse()", "convert()"],
   },
 ];

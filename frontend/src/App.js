@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import Secret from "./pages/Secret";
 import "react-toastify/dist/ReactToastify.css";
 import Problem from "./pages/problem";
-import Test from "./pages/test";
+import Admin from "./pages/admin";
+import Getquestion from "./component/admin/getquestion";
 import Quizmain from "./pages/Quizmain";
 import Quiz from "./component/problem/Quiz";
 import Result from "./component/problem/Result";
@@ -39,7 +40,8 @@ export default function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/" element={<Secret />} />
         <Route path="/mainpage" element={<Mainpage />}></Route>
-        <Route path="/test" element={<Test />}></Route>
+        <Route path="/admin" element={<Admin />}></Route>
+        <Route path="/getquestion" element={<Getquestion />}></Route>
         <Route path="/quizmain" element={<Quizmain />}></Route>
         <Route
           path="/quiz"

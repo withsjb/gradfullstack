@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Questions = require("../Models/questionModel");
 const Results = require("../Models/resultModel");
 const { questions: questions, answers } = require("../database/data.js");
+const _ = require("lodash");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -78,13 +79,11 @@ module.exports.getQuestion = async (req, res) => {
 
 module.exports.randomQuestion = async (req, res) => {
   try {
-    const q = await Questions.find();
-    const shuffledQuestions = q.sort(() => 0.5 - Math.random());
-    const selectedQuestions = shuffledQuestions.slice(0, 3);
-    res.json(selectedQuestions);
+    const questions = await Questions.find({});
+    const randomQuestions = _.sampleSize(questions, 3);
+    res.send(randomQuestions);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "server Error" });
+    res.send(err);
   }
 };
 
@@ -97,13 +96,52 @@ module.exports.insertQuestions = async (req, res) => {
     res.json({ error });
   }
 };
+//마지막 추가된 데이터 확인
+module.exports.getLatestQuestion = async (req, res) => {
+  try {
+    const question = await Questions.findOne().sort({ createdAt: -1 });
+
+    if (!question) {
+      return res.status(404).json({ message: "No question found" });
+    }
+
+    res.status(200).json(question);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//데이터 추가
+module.exports.testQuestions = async (req, res) => {
+  try {
+    const { question, answer } = req.body;
+    const existingQuestion = await Questions.findById(
+      "6457657013cecfa83bb71dde"
+    ); // 이전에 생성한 데이터의 ID를 사용
+    existingQuestion.questions.push(question); // 기존의 questions 배열에 새로운 질문 추가
+    existingQuestion.answers.push(answer); // 기존의 answers 배열에 새로운 답변 추가
+    const updatedQuestion = await existingQuestion.save(); // 업데이트된 질문 저장
+    res.json({
+      msg: "Question Updated Successfully",
+      question: updatedQuestion,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
 
 module.exports.dropQuestions = async (req, res) => {
   try {
-    await Questions.deleteMany();
-    res.json({ msg: "Questions Deleted Successfully...!" });
+    const { quizIndex, questionIndex } = req.params;
+    const updatedQuiz = await Quiz.updateOne(
+      { _id: quizIndex },
+      { $pull: { questions: { id: questionIndex } } }
+    );
+    res.status(200).json(updatedQuiz);
   } catch (error) {
-    res.json({ error });
+    console.error(error.message);
+    res.status(500).json({ message: "서버 오류" });
   }
 };
 

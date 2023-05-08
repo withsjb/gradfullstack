@@ -1,7 +1,7 @@
 const {
   register,
   login,
-
+  testQuestions,
   getQuestion,
   insertQuestions,
   dropQuestions,
@@ -9,6 +9,7 @@ const {
   storeResult,
   dropResult,
   randomQuestion,
+  getLatestQuestion,
 } = require("../Controllers/AuthControllers");
 const { checkUser } = require("../Middlewares/AuthMiddlewares");
 
@@ -20,7 +21,9 @@ router.post("/", checkUser);
 router.post("/register", register);
 router.post("/login", login);
 
-router.route("/questions/random").get(randomQuestion);
+router.route("/quiz").get(randomQuestion).post(testQuestions);
+
+router.route("/quiz/questions/latest").get(getLatestQuestion);
 
 router
   .route("/questions")
