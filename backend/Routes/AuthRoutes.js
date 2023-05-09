@@ -10,6 +10,7 @@ const {
   dropResult,
   randomQuestion,
   getLatestQuestion,
+  updatQuestion,
 } = require("../Controllers/AuthControllers");
 const { checkUser } = require("../Middlewares/AuthMiddlewares");
 
@@ -23,7 +24,10 @@ router.post("/login", login);
 
 router.route("/quiz").get(getLatestQuestion).post(testQuestions);
 
-router.delete("/questions/:quizId/:questionId", dropQuestions);
+router
+  .route("/questions/:quizId/:questionId")
+  .delete(dropQuestions)
+  .put(updatQuestion);
 
 router
   .route("/questions")

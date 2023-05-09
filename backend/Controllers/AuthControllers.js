@@ -151,6 +151,40 @@ module.exports.dropQuestions = async (req, res) => {
   }
 };
 
+module.exports.updatQuestion = async (req, res) => {
+  const { quizId, questionId } = req.params;
+  const { question, text, options, answer } = req.body;
+
+  try {
+    const quiz = await Quiz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+
+    const questionIndex = quiz.questions.findIndex((q) => q.id === questionId);
+
+    if (questionIndex === -1) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+
+    quiz.questions[questionIndex] = {
+      ...quiz.questions[questionIndex],
+      question,
+      text,
+      options,
+      answer,
+    };
+
+    await quiz.save();
+
+    res.json({ message: "Question updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 //**result부분 */
 module.exports.getResult = async (req, res) => {
   try {
