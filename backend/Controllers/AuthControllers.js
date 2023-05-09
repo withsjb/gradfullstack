@@ -99,16 +99,16 @@ module.exports.insertQuestions = async (req, res) => {
 //마지막 추가된 데이터 확인
 module.exports.getLatestQuestion = async (req, res) => {
   try {
-    const question = await Questions.findOne().sort({ createdAt: -1 });
-
-    if (!question) {
-      return res.status(404).json({ message: "No question found" });
+    const questions = await Question.find().sort({ createdAt: -1 });
+    if (!questions) {
+      return res.status(404).json({ error: "No questions found" });
     }
-
-    res.status(200).json(question);
+    const lastQuestion = questions[0];
+    const lastQuestionId = lastQuestion ? lastQuestion.questions[0].id : 0;
+    res.status(200).json({ lastQuestionId });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ error: "Server Error" });
   }
 };
 
@@ -133,15 +133,21 @@ module.exports.testQuestions = async (req, res) => {
 
 module.exports.dropQuestions = async (req, res) => {
   try {
-    const { quizIndex, questionIndex } = req.params;
-    const updatedQuiz = await Quiz.updateOne(
-      { _id: quizIndex },
-      { $pull: { questions: { id: questionIndex } } }
-    );
-    res.status(200).json(updatedQuiz);
+    const { quizId, questionId } = req.params;
+    // find the question to delete from the quiz
+    const quiz = await Questions.findById(quizId);
+    const questionIndex = quiz.questions.findIndex((q) => q.id === questionId);
+    if (questionIndex === -1) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+    // remove the question and answer from the quiz
+    quiz.questions.splice(questionIndex, 1);
+    quiz.answers.splice(questionIndex, 1);
+    await quiz.save();
+    res.status(200).json({ message: "Question deleted successfully" });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "서버 오류" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

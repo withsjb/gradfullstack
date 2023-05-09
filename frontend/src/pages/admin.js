@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import Getquestion from "../component/admin/getquestion";
 
 const AddQuestion = () => {
-  const [id, setId] = useState(1);
+  const [id, setId] = useState(uuidv4());
   const [question, setQuestion] = useState("");
   const [text, setText] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
@@ -22,7 +23,7 @@ const AddQuestion = () => {
         answer: parseInt(answer),
       });
       console.log(response.data);
-      setId(id + 1);
+      setId(uuidv4());
       setAnswer("");
     } catch (error) {
       console.error(error);

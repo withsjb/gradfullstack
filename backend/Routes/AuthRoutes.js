@@ -21,9 +21,9 @@ router.post("/", checkUser);
 router.post("/register", register);
 router.post("/login", login);
 
-router.route("/quiz").get(randomQuestion).post(testQuestions);
+router.route("/quiz").get(getLatestQuestion).post(testQuestions);
 
-router.route("/quiz/questions/latest").get(getLatestQuestion);
+router.delete("/questions/:quizId/:questionId", dropQuestions);
 
 router
   .route("/questions")

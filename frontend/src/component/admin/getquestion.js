@@ -13,6 +13,27 @@ const Quiz = () => {
     fetchData();
   }, []);
 
+  const getAnswer = (questionId, quiz) => {
+    const question = quiz.questions.find((q) => q.id === questionId);
+    return quiz.answers[quiz.questions.indexOf(question)];
+  };
+
+  const deleteQuestion = async (quizId, questionId) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:4000/questions/${quizId}/${questionId}`
+      );
+      console.log(result.data); // 서버로부터 받은 응답 데이터 출력
+      // 삭제 요청에 성공하면 quizList를 다시 불러옵니다.
+      const updatedQuizList = await axios.get(
+        "http://localhost:4000/questions"
+      );
+      setQuizList(updatedQuizList.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className={Styles.admincontainer}>
       {quizList.map((quiz) => (
@@ -30,8 +51,14 @@ const Quiz = () => {
                 ))}
               </ol>
               <p className={Styles.adminan}>
-                정답: {quiz.answers[question.id]}
+                정답: {getAnswer(question.id, quiz)}
               </p>
+              <button
+                onClick={() => deleteQuestion(quiz._id, question.id)}
+                className={Styles.adminbtn}
+              >
+                삭제
+              </button>
             </div>
           ))}
         </div>
