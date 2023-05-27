@@ -152,36 +152,42 @@ module.exports.dropQuestions = async (req, res) => {
 };
 
 module.exports.updatQuestion = async (req, res) => {
-  const { quizId, questionId } = req.params;
-  const { question, text, options, answer } = req.body;
-
   try {
-    const quiz = await Quiz.findById(quizId);
+    const { quizId, questionId } = req.params;
+    const { question, text, options, answer } = req.body;
 
+    // Find the quiz
+    const quiz = await Questions.findById(quizId);
     if (!quiz) {
-      return res.status(404).json({ error: "Quiz not found" });
+      return res.status(404).json({ message: "Quiz not found" });
     }
 
+    // Find the question to update
     const questionIndex = quiz.questions.findIndex((q) => q.id === questionId);
-
     if (questionIndex === -1) {
-      return res.status(404).json({ error: "Question not found" });
+      return res.status(404).json({ message: "Question not found" });
     }
 
-    quiz.questions[questionIndex] = {
-      ...quiz.questions[questionIndex],
+    // Update the question and answer
+    const updatedQuestion = {
+      id: questionId,
       question,
       text,
       options,
-      answer,
     };
+    quiz.questions[questionIndex] = updatedQuestion;
+    quiz.answers[questionIndex] = answer;
 
-    await quiz.save();
+    // Save the updated quiz
+    const updatedQuiz = await quiz.save();
 
-    res.json({ message: "Question updated successfully" });
+    res.status(200).json({
+      message: "Question updated successfully",
+      question: updatedQuiz.questions[questionIndex],
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+    console.error(error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

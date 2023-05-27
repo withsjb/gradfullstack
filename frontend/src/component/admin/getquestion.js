@@ -23,6 +23,10 @@ const Quiz = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setQuestionToEdit(selectedQuestion);
+  }, [selectedQuestion]);
+
   const getAnswer = (questionId, quiz) => {
     const question = quiz.questions.find((q) => q.id === questionId);
     return quiz.answers[quiz.questions.indexOf(question)];
@@ -46,8 +50,11 @@ const Quiz = () => {
 
   //update
   const openModal = (question) => {
-    setSelectedQuestion(question);
-    setQuestionToEdit(question);
+    const quizId = quizList.find((quiz) =>
+      quiz.questions.some((q) => q.id === question.id)
+    )._id;
+    setSelectedQuestion({ ...question, quizId });
+    setQuestionToEdit({ ...question, quizId });
     setModalIsOpen(true);
   };
 
@@ -67,23 +74,25 @@ const Quiz = () => {
   const handleOptionChange = (e, index) => {
     const newOptions = [...questionToEdit.options];
     newOptions[index] = e.target.value;
-    setQuestionToEdit({ ...questionToEdit, options: newOptions });
+    setQuestionToEdit((prevQuestion) => ({
+      ...prevQuestion,
+      options: newOptions,
+    }));
   };
 
   const handleChange = (e) => {
-    setQuestionToEdit({ ...questionToEdit, [e.target.name]: e.target.value });
+    setQuestionToEdit((prevQuestion) => ({
+      ...prevQuestion,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    saveQuestion(questionToEdit);
-  };
-
-  const saveQuestion = async (editedQuestion) => {
     try {
       const result = await axios.put(
         `http://localhost:4000/questions/${selectedQuestion.quizId}/${selectedQuestion.id}`,
-        editedQuestion
+        { ...questionToEdit, quizId: selectedQuestion.quizId }
       );
       console.log(result.data); // 서버로부터 받은 응답 데이터 출력
       // 수정 요청에 성공하면 quizList를 다시 불러옵니다.
@@ -133,28 +142,26 @@ const Quiz = () => {
         </div>
       ))}
 
-      {modalIsOpen && ( //모델 부분
+      {selectedQuestion && (
         <div className={Styles.modal}>
           <h3>질문 수정하기</h3>
           <form onSubmit={handleSubmit}>
-            <label>
-              질문:
-              <input
-                type="text"
-                name="question"
-                value={questionToEdit.question}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              텍스트:
-              <input
-                type="text"
-                name="text"
-                value={questionToEdit.text}
-                onChange={handleChange}
-              />
-            </label>
+            <label htmlFor="question">질문</label>
+            <input
+              type="text"
+              name="question"
+              id="question"
+              value={questionToEdit.question}
+              onChange={handleChange}
+            />
+            <label htmlFor="text">텍스트</label>
+            <input
+              type="text"
+              name="text"
+              id="text"
+              value={questionToEdit.text}
+              onChange={handleChange}
+            />
             {questionToEdit.options.map((option, index) => (
               <label key={index}>
                 옵션 {index + 1}:
