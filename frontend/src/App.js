@@ -31,11 +31,13 @@ import Select from "./pages/select/select";
 import AddProblem from "./component/problem/AddProblem";
 import Changeproblem from "./component/problem/changeproblem";
 import { CheckUserExist } from "./helper/helper";
+import Test from "./pages/test";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/test" element={<Test />}></Route>
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/" element={<Secret />} />
@@ -43,6 +45,7 @@ export default function App() {
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/getquestion" element={<Getquestion />}></Route>
         <Route path="/quizmain" element={<Quizmain />}></Route>
+
         <Route
           path="/quiz"
           element={

@@ -54,7 +54,14 @@ const Quiz = () => {
       quiz.questions.some((q) => q.id === question.id)
     )._id;
     setSelectedQuestion({ ...question, quizId });
-    setQuestionToEdit({ ...question, quizId });
+    if (selectedQuestion && selectedQuestion.id === question.id) {
+      setQuestionToEdit({ ...questionToEdit, quizId });
+    } else {
+      setQuestionToEdit({
+        ...question,
+        quizId,
+      });
+    }
     setModalIsOpen(true);
   };
 
@@ -81,9 +88,20 @@ const Quiz = () => {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    let parsedValue;
+
+    if (name === "answer") {
+      parsedValue = parseInt(value, 10);
+    } else {
+      parsedValue = value;
+    }
+
     setQuestionToEdit((prevQuestion) => ({
       ...prevQuestion,
-      [e.target.name]: e.target.value,
+      [name]: parsedValue,
+      options: [...prevQuestion.options], // 기존 배열을 복사하여 새로운 배열 생성
     }));
   };
 
@@ -123,7 +141,7 @@ const Quiz = () => {
                 ))}
               </ol>
               <p className={Styles.adminan}>
-                정답: {getAnswer(question.id, quiz)}
+                정답: {getAnswer(question.id, quiz) + 1}
               </p>
               <button
                 onClick={() => deleteQuestion(quiz._id, question.id)}
@@ -176,11 +194,18 @@ const Quiz = () => {
               정답:
               <select
                 name="answer"
-                value={questionToEdit.answer}
+                value={
+                  questionToEdit.answer === null
+                    ? ""
+                    : String(questionToEdit.answer)
+                }
                 onChange={handleChange}
               >
+                <option value="" disabled>
+                  문제를 선택해주세요
+                </option>
                 {questionToEdit.options.map((option, index) => (
-                  <option value={index} key={index}>
+                  <option value={String(index)} key={index}>
                     {option}
                   </option>
                 ))}

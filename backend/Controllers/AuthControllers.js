@@ -4,6 +4,7 @@ const Questions = require("../Models/questionModel");
 const Results = require("../Models/resultModel");
 const { questions: questions, answers } = require("../database/data.js");
 const _ = require("lodash");
+const UploadModel = require("../Models/UploadModel");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -175,8 +176,14 @@ module.exports.updatQuestion = async (req, res) => {
       text,
       options,
     };
+
     quiz.questions[questionIndex] = updatedQuestion;
-    quiz.answers[questionIndex] = answer;
+
+    if (Number(answer) === 0) {
+      quiz.answers[questionIndex] = 0; // 정답이 1번일 때는 1로 설정
+    } else {
+      quiz.answers[questionIndex] = parseInt(answer, 10); // 나머지 경우는 answer를 그대로 저장
+    }
 
     // Save the updated quiz
     const updatedQuiz = await quiz.save();
@@ -184,6 +191,7 @@ module.exports.updatQuestion = async (req, res) => {
     res.status(200).json({
       message: "Question updated successfully",
       question: updatedQuiz.questions[questionIndex],
+      answers: updatedQuiz.answers,
     });
   } catch (error) {
     console.error(error.message);
@@ -217,6 +225,33 @@ module.exports.dropResult = async (req, res) => {
   try {
     await Results.deleteMany();
     res.json({ msg: "Result Deleted Successfully...!" });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+module.exports.getimg = async (req, res) => {
+  try {
+    const allPhotos = await UploadModel.find().sort({
+      createdAt: "descending",
+    });
+    res.send(allPhotos);
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+module.exports.saveimg = async (req, res) => {
+  try {
+    const photo = req.file.filename;
+
+    console.log(photo);
+
+    UploadModel.create({ photo }).then((data) => {
+      console.log("Uploaded Successfully...");
+      console.log(data);
+      res.send(data);
+    });
   } catch (error) {
     res.json({ error });
   }

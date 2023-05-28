@@ -28,10 +28,14 @@ export const useFetchQestion = () => {
 
         if (questions.length > 0) {
           setGetData((prev) => ({ ...prev, isLoading: false }));
+          const shuffledQuestions = shuffleArray(questions);
+          const limitedQuestions = questions.slice(0, 3); // 문제 수를 3개로 제한
           setGetData((prev) => ({ ...prev, apiData: questions }));
 
           /** dispatch an action */
-          dispatch(Action.startExamAction({ question: questions, answers })); //question reducer에서 불러온 데이터 questions랑 db에서 불러온 questions이랑 맞게함
+          dispatch(
+            Action.startExamAction({ question: limitedQuestions, answers })
+          ); //question reducer에서 불러온 데이터 questions랑 db에서 불러온 questions이랑 맞게함
         } else {
           throw new Error("No Question Avalibale");
         }
@@ -41,6 +45,15 @@ export const useFetchQestion = () => {
       }
     })();
   }, [dispatch]);
+
+  // 배열을 섞는 Fisher-Yates 알고리즘
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
   return [getData, setGetData];
 };
