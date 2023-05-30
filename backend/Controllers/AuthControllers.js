@@ -78,16 +78,6 @@ module.exports.getQuestion = async (req, res) => {
   }
 };
 
-module.exports.randomQuestion = async (req, res) => {
-  try {
-    const questions = await Questions.find({});
-    const randomQuestions = _.sampleSize(questions, 3);
-    res.send(randomQuestions);
-  } catch (err) {
-    res.send(err);
-  }
-};
-
 /**insert all questions */
 module.exports.insertQuestions = async (req, res) => {
   try {
