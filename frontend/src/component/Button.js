@@ -10,7 +10,7 @@ const Button = ({ setUpdateUI }) => {
     formData.append("photo", e.target.files[0]);
 
     axios
-      .post("http://localhost:4000/upload", formData)
+      .post("http://localhost:4000/quiz", formData)
       .then((res) => {
         console.log(res.data);
         setUpdateUI(res.data._id);

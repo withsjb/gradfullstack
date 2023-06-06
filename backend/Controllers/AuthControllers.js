@@ -2,7 +2,7 @@ const UserModel = require("../Models/UserModel");
 const jwt = require("jsonwebtoken");
 const Questions = require("../Models/questionModel");
 const Results = require("../Models/resultModel");
-const { questions: questions, answers } = require("../database/data.js");
+const { questions: questions, answers, photo } = require("../database/data.js");
 const _ = require("lodash");
 const UploadModel = require("../Models/UploadModel");
 
@@ -81,7 +81,7 @@ module.exports.getQuestion = async (req, res) => {
 /**insert all questions */
 module.exports.insertQuestions = async (req, res) => {
   try {
-    await Questions.create({ questions, answers });
+    await Questions.create({ questions, answers, photo });
     res.json({ msg: "Data Saved Successfully...!" });
   } catch (error) {
     res.json({ error });
@@ -106,19 +106,30 @@ module.exports.getLatestQuestion = async (req, res) => {
 //데이터 추가
 module.exports.testQuestions = async (req, res) => {
   try {
-    const { question, answer } = req.body;
+    const { questions, answers } = JSON.parse(req.body.questions);
+    const { filename } = req.file;
+
     const existingQuestion = await Questions.findById(
-      "6457657013cecfa83bb71dde"
-    ); // 이전에 생성한 데이터의 ID를 사용
-    existingQuestion.questions.push(question); // 기존의 questions 배열에 새로운 질문 추가
-    existingQuestion.answers.push(answer); // 기존의 answers 배열에 새로운 답변 추가
-    const updatedQuestion = await existingQuestion.save(); // 업데이트된 질문 저장
+      "647c283a10a55bafa6e495df"
+    );
+
+    questions.forEach((questionData) => {
+      existingQuestion.questions.push(questionData);
+    });
+    answers.forEach((answerData) => {
+      existingQuestion.answers.push(answerData);
+    });
+
+    existingQuestion.photo.push(filename);
+
+    const updatedQuestion = await existingQuestion.save();
+
     res.json({
       msg: "Question Updated Successfully",
       question: updatedQuestion,
     });
   } catch (error) {
-    res.json({ error });
+    res.status(500).json({ error: error.message });
   }
 };
 

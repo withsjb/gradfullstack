@@ -25,7 +25,10 @@ router.post("/", checkUser);
 router.post("/register", register);
 router.post("/login", login);
 
-router.route("/quiz").get(getLatestQuestion).post(testQuestions);
+router
+  .route("/quiz")
+  .get(getLatestQuestion)
+  .post(uploadMiddleware.single("photo"), testQuestions);
 
 router
   .route("/questions/:quizId/:questionId")

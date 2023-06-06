@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { AiFillPlusCircle } from "react-icons/ai";
 import Getquestion from "../component/admin/getquestion";
 
 const AddQuestion = () => {
@@ -9,22 +10,43 @@ const AddQuestion = () => {
   const [text, setText] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [answer, setAnswer] = useState("");
+  const [photo, setPhoto] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/quiz", {
-        question: {
-          id: id,
-          question: question,
-          text: text,
-          options: options,
-        },
-        answer: parseInt(answer),
-      });
+      const questionData = {
+        questions: [
+          {
+            id: id,
+            text: text,
+            question: question,
+            options: options,
+          },
+        ],
+        answers: [parseInt(answer)],
+      };
+
+      const formData = new FormData();
+      formData.append("questions", JSON.stringify(questionData));
+      formData.append("photo", photo);
+
+      const response = await axios.post(
+        "http://localhost:4000/quiz",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       console.log(response.data);
-      setId(uuidv4());
+      setQuestion("");
+      setText("");
+      setOptions(["", "", "", ""]);
       setAnswer("");
+      setPhoto(null);
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +56,11 @@ const AddQuestion = () => {
     const newOptions = [...options];
     newOptions[index] = event.target.value;
     setOptions(newOptions);
-    setAnswer(index);
+    setAnswer(event.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    setPhoto(event.target.files[0]);
   };
 
   return (
@@ -109,9 +135,14 @@ const AddQuestion = () => {
             <option value={3}>선택지 4</option>
           </select>
         </div>
+
+        <div>
+          <label htmlFor="photo">사진:</label>
+          <input type="file" id="photo" onChange={handleFileChange} />
+        </div>
+
         <button type="submit">추가하기</button>
       </form>
-
       <Getquestion />
     </>
   );
