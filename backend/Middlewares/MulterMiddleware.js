@@ -7,7 +7,11 @@ const storage = multer.diskStorage({
     cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, `${uuidv4()}_${path.extname(file.originalname)}`);
+    if (file) {
+      cb(null, `${uuidv4()}_${path.extname(file.originalname)}`);
+    } else {
+      cb(null, null); // 수정: 파일이 없는 경우 null 값으로 설정
+    }
   },
 });
 

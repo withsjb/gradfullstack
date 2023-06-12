@@ -2,6 +2,10 @@ const UserModel = require("../Models/UserModel");
 const jwt = require("jsonwebtoken");
 const Questions = require("../Models/questionModel");
 const Results = require("../Models/resultModel");
+
+const Term = require("../Models/TermModel");
+const Wikiapp = require("../Models/wikiappModel");
+const LinuxFile = require("../Models/linuxfileModel");
 const { questions: questions, answers, photo } = require("../database/data.js");
 const _ = require("lodash");
 const UploadModel = require("../Models/UploadModel");
@@ -107,7 +111,6 @@ module.exports.getLatestQuestion = async (req, res) => {
 module.exports.testQuestions = async (req, res) => {
   try {
     const { questions, answers } = JSON.parse(req.body.questions);
-    const { filename } = req.file;
 
     const existingQuestion = await Questions.findById(
       "647c283a10a55bafa6e495df"
@@ -120,7 +123,12 @@ module.exports.testQuestions = async (req, res) => {
       existingQuestion.answers.push(answerData);
     });
 
-    existingQuestion.photo.push(filename);
+    if (req.file && req.file.filename) {
+      const { filename } = req.file;
+      existingQuestion.photo.push(filename);
+    } else {
+      existingQuestion.photo.push(null); // 수정: null 값으로 추가
+    }
 
     const updatedQuestion = await existingQuestion.save();
 
@@ -255,5 +263,180 @@ module.exports.saveimg = async (req, res) => {
     });
   } catch (error) {
     res.json({ error });
+  }
+};
+
+//wiki추가
+module.exports.getwiki = async (req, res) => {
+  try {
+    const word = await Word.findOne({ word: req.params.word });
+    res.json(word);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "서버 에러" });
+  }
+};
+
+module.exports.addwiki = async (req, res) => {
+  try {
+    const { word, description } = req.body;
+    const newWord = new Word({ word, description });
+    await newWord.save();
+    res.json(newWord);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "서버 에러" });
+  }
+};
+
+//tern추가
+module.exports.getterm = async (req, res) => {
+  const terms = await Term.find();
+  res.json(terms);
+};
+
+module.exports.postterm = async (req, res) => {
+  const { term, definition } = req.body;
+  const newTerm = new Term({ term, definition });
+  const savedTerm = await newTerm.save();
+  res.json(savedTerm);
+};
+
+//wikiapp
+module.exports.postwikiapp = async (req, res) => {
+  try {
+    const { Name, Text } = req.body;
+    const newEntry = new Wikiapp({ Name, Text });
+    await newEntry.save();
+    res.status(200).send("정보가 성공적으로 추가되었습니다.");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 오류");
+  }
+};
+
+module.exports.getwikiapp = async (req, res) => {
+  try {
+    const entries = await Wikiapp.find({});
+    res.status(200).json(entries);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 오류");
+  }
+};
+
+module.exports.getwikiterm = async (req, res) => {
+  try {
+    const { word } = req.params;
+    const term = await Term.findOne({ term: word });
+    if (term) {
+      res.status(200).json(term);
+    } else {
+      res.status(404).send("단어를 찾을 수 없습니다.");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 오류");
+  }
+};
+
+//linuxfile추가
+
+module.exports.applinux = async (req, res) => {
+  try {
+    const { name, content } = req.body;
+    const newLinuxFile = await LinuxFile.create({ name, content });
+
+    res.status(201).json({
+      _id: newLinuxFile._id, // 파일의 id를 반환
+      name: newLinuxFile.name,
+      content: newLinuxFile.content,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to add file" });
+  }
+};
+
+module.exports.getlinux = async (req, res) => {
+  try {
+    const files = await LinuxFile.find({}, { content: 0 }); // 컨텐츠 필드는 제외하고 조회
+    res.status(200).json(files);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("파일 목록 가져오기 실패");
+  }
+};
+
+module.exports.getFile = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+
+    const file = await LinuxFile.findById(fileId);
+
+    if (!file) {
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    res.status(200).json(file);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to get file");
+  }
+};
+
+module.exports.addContent = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    const { concept, content } = req.body;
+    const photo = req.file; // 업로드된 사진 파일
+
+    const updatedFile = await LinuxFile.findByIdAndUpdate(
+      fileId,
+      {
+        $addToSet: { concept: concept, content: content },
+        $push: { photo: photo ? photo.filename : null }, // 사진이 선택되지 않은 경우 null을 추가
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedFile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to add content and photo to file");
+  }
+};
+
+module.exports.addPhoto = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    const photo = req.file; // 업로드된 사진 파일
+
+    const updatedFile = await LinuxFile.findByIdAndUpdate(
+      fileId,
+      {
+        $push: { photo: photo.filename },
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedFile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to add photo to file");
+  }
+};
+
+module.exports.getphoto = async (req, res) => {
+  try {
+    const file = await LinuxFile.findById(req.params.fileId);
+    if (!file) {
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    res.json({ photos: file.photo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 };

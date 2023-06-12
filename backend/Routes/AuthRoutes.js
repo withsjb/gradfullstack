@@ -13,6 +13,21 @@ const {
   updatQuestion,
   getimg,
   saveimg,
+  getwiki,
+  addwiki,
+  updatewiki,
+  deletewiki,
+  postterm,
+  getterm,
+  postwikiapp,
+  getwikiapp,
+  getwikiterm,
+  applinux,
+  getlinux,
+  addContent,
+  getFile,
+  addPhoto,
+  getphoto,
 } = require("../Controllers/AuthControllers");
 const { checkUser } = require("../Middlewares/AuthMiddlewares");
 const uploadMiddleware = require("../middlewares/MulterMiddleware");
@@ -33,7 +48,7 @@ router
 router
   .route("/questions/:quizId/:questionId")
   .delete(dropQuestions)
-  .put(updatQuestion);
+  .put(uploadMiddleware.single("photo"), updatQuestion);
 
 router
   .route("/questions")
@@ -47,5 +62,26 @@ router
   .route("/upload")
   .get(getimg)
   .post(uploadMiddleware.single("photo"), saveimg);
+
+router.route("/word").get(getwiki).post(addwiki);
+
+router.route("/terms").get(getterm).post(postterm);
+
+router.route("/wikiapp").get(getwikiapp).post(postwikiapp);
+
+router.route("/term/:word").get(getwikiterm);
+
+router.route("/linux/files").get(getlinux).post(applinux);
+
+router.route("/linux/files/:fileId").get(getFile);
+
+router
+  .route("/linux/files/:fileId/addcontent")
+  .post(uploadMiddleware.single("photo"), addContent);
+
+router
+  .route("/linux/files/:fileId/addphoto")
+  .get(getphoto)
+  .post(uploadMiddleware.single("photo"), addPhoto);
 
 module.exports = router;

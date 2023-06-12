@@ -1,0 +1,14 @@
+.wikimodel {
+  width: 500px;
+  height: auto;
+  background-color: white;
+  border: solid 1px black;
+  font-size: 30px;
+
+  transition: all ease 0.5s;
+}
+
+.wikitext {
+  width: 1000px;
+  height: 800px;
+}

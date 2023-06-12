@@ -29,7 +29,11 @@ const Quiz = () => {
 
   const getAnswer = (questionId, quiz) => {
     const question = quiz.questions.find((q) => q.id === questionId);
-    return quiz.answers[quiz.questions.indexOf(question)];
+    if (question) {
+      const index = quiz.questions.indexOf(question);
+      return quiz.answers[index] ?? null;
+    }
+    return null;
   };
 
   const deleteQuestion = async (quizId, questionId) => {
@@ -108,10 +112,25 @@ const Quiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("question", questionToEdit.question);
+      formData.append("text", questionToEdit.text);
+      questionToEdit.options.forEach((option) => {
+        formData.append("options", option);
+      });
+      formData.append("answer", questionToEdit.answer);
+      formData.append("photo", questionToEdit.photo);
+
       const result = await axios.put(
         `http://localhost:4000/questions/${selectedQuestion.quizId}/${selectedQuestion.id}`,
-        { ...questionToEdit, quizId: selectedQuestion.quizId }
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+
       console.log(result.data); // 서버로부터 받은 응답 데이터 출력
       // 수정 요청에 성공하면 quizList를 다시 불러옵니다.
       const updatedQuizList = await axios.get(
@@ -129,10 +148,11 @@ const Quiz = () => {
       {quizList.map((quiz) => (
         <div className={Styles.admincon} key={quiz._id}>
           <h3>id: {quiz._id}</h3>
-          {quiz.questions.map((question) => (
+          {quiz.questions.map((question, index) => (
             <div className={Styles.admindiv} key={question.id}>
               <h4 className={Styles.adminh4}>질문: {question.question}</h4>
               <p className={Styles.adminp}>텍스트: {question.text}</p>
+
               <ol>
                 {question.options.map((option, index) => (
                   <li className={Styles.adminli} key={index}>
@@ -140,6 +160,15 @@ const Quiz = () => {
                   </li>
                 ))}
               </ol>
+              {quiz.photo.find((_, photoIndex) => photoIndex === index) && (
+                <img
+                  className={Styles.adminimg}
+                  src={`http://localhost:4000/uploads/${quiz.photo.find(
+                    (_, photoIndex) => photoIndex === index
+                  )}`}
+                  alt={`Question ${question.id} Photo`}
+                />
+              )}
               <p className={Styles.adminan}>
                 정답: {getAnswer(question.id, quiz) + 1}
               </p>
@@ -211,6 +240,20 @@ const Quiz = () => {
                 ))}
               </select>
             </label>
+            <label htmlFor="photo">사진 업로드</label>
+            <input
+              type="file"
+              name="photo"
+              id="photo"
+              accept="image/*"
+              onChange={(e) =>
+                setQuestionToEdit({
+                  ...questionToEdit,
+                  photo: e.target.files[0],
+                })
+              }
+            />
+
             <button type="submit">저장</button>
           </form>
         </div>
