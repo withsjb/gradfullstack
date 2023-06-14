@@ -391,12 +391,17 @@ module.exports.addContent = async (req, res) => {
     const { concept, content } = req.body;
     const photo = req.file; // 업로드된 사진 파일
 
+    const updateObject = {
+      $push: {
+        concept: concept !== null ? concept : "",
+        content: content !== null ? content : "",
+        photo: photo ? photo.filename : null,
+      },
+    };
+
     const updatedFile = await LinuxFile.findByIdAndUpdate(
       fileId,
-      {
-        $addToSet: { concept: concept, content: content },
-        $push: { photo: photo ? photo.filename : null }, // 사진이 선택되지 않은 경우 null을 추가
-      },
+      updateObject,
       { new: true }
     );
 

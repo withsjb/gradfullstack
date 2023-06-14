@@ -5,17 +5,17 @@ import Styles from "../styles/Filedetail.module.css";
 
 const FileDetail = () => {
   const [file, setFile] = useState(null);
-  const [content, setContent] = useState("");
   const [concept, setConcept] = useState("");
+  const [content, setContent] = useState("");
   const [photo, setPhoto] = useState("");
   const [photos, setPhotos] = useState([]);
-
-  const { fileId } = useParams();
-  const navigate = useNavigate();
   const [terms, setTerms] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
+  const { fileId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchFile();
@@ -27,7 +27,11 @@ const FileDetail = () => {
     axios
       .get(`http://localhost:4000/linux/files/${fileId}`)
       .then((response) => {
-        setFile(response.data);
+        const fetchedFile = response.data;
+        if (fetchedFile.concept === null) {
+          fetchedFile.concept = []; // 빈 배열로 초기화
+        }
+        setFile(fetchedFile);
       })
       .catch((error) => {
         console.error(error);
@@ -66,11 +70,17 @@ const FileDetail = () => {
   const handleAddContentAndPhoto = () => {
     const formData = new FormData();
     if (photo) {
-      // 이미지 파일이 선택되었을 경우에만 FormData에 추가
       formData.append("photo", photo);
     }
-    formData.append("concept", concept);
-    formData.append("content", content);
+
+    formData.append("concept", concept || ""); // 빈 문자열이면 빈 값으로 추가
+
+    if (content.trim() === "") {
+      formData.append("content", ""); // 컨텐츠가 비어 있는 경우도 빈 값으로 추가
+    } else {
+      formData.append("content", content);
+    }
+
     addContentAndPhoto(formData);
   };
 
@@ -79,10 +89,10 @@ const FileDetail = () => {
       .post(`http://localhost:4000/linux/files/${fileId}/addcontent`, formData)
       .then((response) => {
         console.log(response.data);
-        setConcept("");
-        setContent("");
-        setPhoto("");
-        fetchFile();
+        setFile(response.data); // 파일 객체 업데이트
+        setConcept(""); // 컨셉 초기화
+        setContent(""); // 컨텐츠 초기화
+        setPhoto(""); // 사진 초기화
         fetchPhotos();
       })
       .catch((error) => {
@@ -115,6 +125,11 @@ const FileDetail = () => {
 
   const handleNewEntrySubmit = (event) => {
     event.preventDefault();
+    const contentWithHighlight = content.replace(
+      new RegExp(`(${terms.map((term) => term.term).join("|")})`, "gi"),
+      "<span style='color: blue'>$&</span>"
+    );
+    setContent(contentWithHighlight);
   };
 
   if (!file) {
@@ -136,11 +151,15 @@ const FileDetail = () => {
         value={concept}
         onChange={(event) => setConcept(event.target.value)}
       />
-      <input
-        type="text"
+      <textarea
+        className={Styles.contentbox}
         placeholder="컨텐츠 입력"
         value={content}
-        onChange={(event) => setContent(event.target.value)}
+        onChange={(event) => {
+          const value = event.target.value;
+          const formattedValue = value.replace(/\r?\n/g, "\n"); // 줄 바꿈 문자를 유지하도록 수정
+          setContent(formattedValue);
+        }}
       />
 
       <input
@@ -156,23 +175,20 @@ const FileDetail = () => {
           <div key={index} className={Styles.contentItem}>
             <div className={Styles.fileconceptdiv}>{entry.concept}</div>
             <div className={Styles.filediv}>
-              {entry.content.split(" ").map((word, wordIndex) => {
-                const term = findMatchingTerm(word);
-                if (term) {
-                  return (
-                    <span
-                      key={wordIndex}
-                      style={{ color: "blue" }}
-                      onMouseOver={(e) => showDefinition(term, e)}
-                      onMouseOut={hideDefinition}
-                    >
-                      {word}{" "}
-                    </span>
-                  );
-                } else {
-                  return word + " ";
-                }
-              })}
+              {entry.content.split("<br/>").map((line, lineIndex) => (
+                <div
+                  key={lineIndex}
+                  dangerouslySetInnerHTML={{
+                    __html: line.replace(
+                      new RegExp(
+                        `(${terms.map((term) => term.term).join("|")})`,
+                        "gi"
+                      ),
+                      "<span style='color: blue'>$&</span>"
+                    ),
+                  }}
+                />
+              ))}
             </div>
             <div className={Styles.photobox}>
               {entry.photo !== "null" && entry.photo ? (
