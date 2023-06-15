@@ -13,6 +13,8 @@ const FileDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [concepts, setConcepts] = useState([]);
+  const [updatedIndex, setUpdatedIndex] = useState(-1);
 
   const { fileId } = useParams();
   const navigate = useNavigate();
@@ -23,13 +25,22 @@ const FileDetail = () => {
     fetchPhotos();
   }, []);
 
+  useEffect(() => {
+    if (file) {
+      const extractedConcepts = file.concept.filter(
+        (concept) => concept.trim() !== ""
+      );
+      setConcepts(extractedConcepts);
+    }
+  }, [file]);
+
   const fetchFile = () => {
     axios
       .get(`http://localhost:4000/linux/files/${fileId}`)
       .then((response) => {
         const fetchedFile = response.data;
         if (fetchedFile.concept === null) {
-          fetchedFile.concept = []; // 빈 배열로 초기화
+          fetchedFile.concept = []; // concept가 null인 경우 빈 배열로 초기화
         }
         setFile(fetchedFile);
       })
@@ -57,7 +68,7 @@ const FileDetail = () => {
           if (photo) {
             return `http://localhost:4000/uploads/${photo}`;
           } else {
-            return ""; // 빈 문자열로 처리
+            return "";
           }
         });
         setPhotos(photoURLs);
@@ -73,15 +84,24 @@ const FileDetail = () => {
       formData.append("photo", photo);
     }
 
-    formData.append("concept", concept || ""); // 빈 문자열이면 빈 값으로 추가
+    if (concept.trim() === "") {
+      formData.append("concept", null); // 컨셉이 비어 있을 때도 빈 문자열을 추가합니다.
+      setUpdatedIndex(-1);
+    } else {
+      formData.append("concept", concept);
+      setUpdatedIndex(-1);
+    }
 
     if (content.trim() === "") {
-      formData.append("content", ""); // 컨텐츠가 비어 있는 경우도 빈 값으로 추가
+      formData.append("content", "");
     } else {
       formData.append("content", content);
     }
 
     addContentAndPhoto(formData);
+    if (concept.trim() === "" && content.trim() !== "") {
+      setConcept(""); // 컨셉이 비어 있고 컨텐츠가 추가되었을 때 컨셉 입력 필드를 초기화합니다.
+    }
   };
 
   const addContentAndPhoto = (formData) => {
@@ -89,11 +109,18 @@ const FileDetail = () => {
       .post(`http://localhost:4000/linux/files/${fileId}/addcontent`, formData)
       .then((response) => {
         console.log(response.data);
-        setFile(response.data); // 파일 객체 업데이트
-        setConcept(""); // 컨셉 초기화
-        setContent(""); // 컨텐츠 초기화
-        setPhoto(""); // 사진 초기화
+        setFile(response.data);
+        setConcept("");
+        setContent("");
+        setPhoto("");
         fetchPhotos();
+        if (updatedIndex !== -1) {
+          setConcepts((prevConcepts) => [
+            ...prevConcepts.slice(0, updatedIndex),
+            concept,
+            ...prevConcepts.slice(updatedIndex),
+          ]);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -109,13 +136,31 @@ const FileDetail = () => {
     const matchingTerm = terms.find(
       (term) => term.term.toLowerCase() === word.toLowerCase()
     );
-    return matchingTerm;
+    return matchingTerm ? matchingTerm.definition : "";
   };
 
   const showDefinition = (term, e) => {
-    setModalContent(term.definition);
-    const { clientX, clientY } = e;
-    setModalPosition({ top: clientY + 10, left: clientX });
+    const definition = findMatchingTerm(term);
+    setModalContent(definition);
+
+    const spanElement = document.createElement("span");
+    spanElement.style.color = "blue";
+    const highlightedText = document.createTextNode(term);
+    spanElement.appendChild(highlightedText);
+
+    const wordElement = e.currentTarget; // 클릭된 단어가 있는 요소를 가져옴
+    const wordParentElement = wordElement.parentElement; // 단어를 감싸는 상위 요소를 가져옴
+    wordParentElement.appendChild(spanElement); // span 요소를 상위 요소에 추가하여 위치 정보를 얻음
+
+    const rect = spanElement.getBoundingClientRect(); // 상위 요소의 위치와 크기 정보를 가져옴
+    const { right, top } = rect;
+    const modalLeft = right + 10; // 상위 요소의 오른쪽에서 10px 오른쪽으로 이동
+    const modalTop = top; // 상위 요소의 상단을 그대로 유지
+
+    wordParentElement.removeChild(spanElement); // 위치 정보를 얻은 후에 span 요소를 제거함
+
+    const adjustedModalLeft = modalLeft - spanElement.offsetWidth; // 모달의 왼쪽 위치를 조정
+    setModalPosition({ left: adjustedModalLeft, top: modalTop });
     setShowModal(true);
   };
 
@@ -132,6 +177,17 @@ const FileDetail = () => {
     setContent(contentWithHighlight);
   };
 
+  const scrollToConcept = (conceptIndex) => {
+    const conceptElement = document.getElementById(`concept-${conceptIndex}`);
+    if (conceptElement) {
+      conceptElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  };
+
   if (!file) {
     return <div>Loading...</div>;
   }
@@ -139,7 +195,7 @@ const FileDetail = () => {
   const sortedEntries = file.concept.map((conceptItem, index) => ({
     concept: conceptItem,
     content: file.content[index],
-    photo: photos[index] || "", // 이미지가 없을 경우에는 빈 문자열로 설정
+    photo: photos[index] || "",
   }));
 
   return (
@@ -157,7 +213,7 @@ const FileDetail = () => {
         value={content}
         onChange={(event) => {
           const value = event.target.value;
-          const formattedValue = value.replace(/\r?\n/g, "\n"); // 줄 바꿈 문자를 유지하도록 수정
+          const formattedValue = value.replace(/\r?\n/g, "\n");
           setContent(formattedValue);
         }}
       />
@@ -170,14 +226,40 @@ const FileDetail = () => {
 
       <button onClick={handleAddContentAndPhoto}>컨텐츠 및 사진 추가</button>
 
+      <div className={Styles.conceptList}>
+        <ul>
+          {concepts.map((concept, index) => (
+            <li key={index} onClick={() => scrollToConcept(index + 1)}>
+              {concept}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className={Styles.filecard}>
         {sortedEntries.map((entry, index) => (
           <div key={index} className={Styles.contentItem}>
-            <div className={Styles.fileconceptdiv}>{entry.concept}</div>
+            {entry.concept.trim() !== "" && index !== updatedIndex && (
+              <div
+                className={Styles.fileconceptdiv}
+                id={`concept-${index + 1}`}
+              >
+                {entry.concept !== "null" && entry.concept}
+              </div>
+            )}
+            {entry.concept.trim() !== "" && index === updatedIndex && (
+              <div
+                className={Styles.fileconceptdiv}
+                id={`concept-${index + 1}`}
+              >
+                {entry.concept}
+              </div>
+            )}
             <div className={Styles.filediv}>
               {entry.content.split("<br/>").map((line, lineIndex) => (
                 <div
                   key={lineIndex}
+                  onMouseEnter={(e) => showDefinition(line, e)}
+                  onMouseLeave={hideDefinition}
                   dangerouslySetInnerHTML={{
                     __html: line.replace(
                       new RegExp(
@@ -208,8 +290,9 @@ const FileDetail = () => {
       </div>
       {showModal && (
         <div
-          className={Styles.filemodal}
+          className={Styles.modal}
           style={{ top: modalPosition.top, left: modalPosition.left }}
+          onClick={hideDefinition}
         >
           {modalContent}
         </div>
