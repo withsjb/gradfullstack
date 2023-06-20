@@ -3,6 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { AiFillPlusCircle } from "react-icons/ai";
 import Getquestion from "../component/admin/getquestion";
+import Styles from "../styles/admin.module.css";
 
 const AddQuestion = () => {
   const [id, setId] = useState(uuidv4());
@@ -70,65 +71,72 @@ const AddQuestion = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className={Styles.inputform} onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="question">질문:</label>
+          <label htmlFor="question"> 질문 입력 : </label>
           <input
             type="text"
             id="question"
             value={question}
+            placeholder=" 질문을 입력하세요."
             onChange={(event) => setQuestion(event.target.value)}
           />
         </div>
 
         <div>
-          <label htmlFor="text">텍스트:</label>
+          <label htmlFor="text"> 내용 입력 : </label>
           <input
             type="text"
             id="text"
             value={text}
+            placeholder=" 내용을 입력하세요."
             onChange={(event) => setText(event.target.value)}
           />
         </div>
-
-        <div>
-          <label htmlFor="option1">선택지 1:</label>
-          <input
-            type="text"
-            id="option1"
-            value={options[0]}
-            onChange={(event) => handleOptionChange(event, 0)}
-          />
+        <div className={Styles.num_input}>
+          <div>
+            <label htmlFor="option1">선택지 1 : </label>
+            <input
+              type="text"
+              id="option1"
+              value={options[0]}
+              placeholder=" 1번 정답"
+              onChange={(event) => handleOptionChange(event, 0)}
+            />
+          </div>
+          <div>
+            <label htmlFor="option2">선택지 2 : </label>
+            <input
+              type="text"
+              id="option2"
+              value={options[1]}
+              placeholder=" 2번 정답"
+              onChange={(event) => handleOptionChange(event, 1)}
+            />
+          </div>
+          <div>
+            <label htmlFor="option3">선택지 3 : </label>
+            <input
+              type="text"
+              id="option3"
+              value={options[2]}
+              placeholder=" 3번 정답"
+              onChange={(event) => handleOptionChange(event, 2)}
+            />
+          </div>
+          <div>
+            <label htmlFor="option4">선택지 4 : </label>
+            <input
+              type="text"
+              id="option4"
+              value={options[3]}
+              placeholder=" 4번 정답"
+              onChange={(event) => handleOptionChange(event, 3)}
+            />
+          </div>
         </div>
         <div>
-          <label htmlFor="option2">선택지 2:</label>
-          <input
-            type="text"
-            id="option2"
-            value={options[1]}
-            onChange={(event) => handleOptionChange(event, 1)}
-          />
-        </div>
-        <div>
-          <label htmlFor="option3">선택지 3:</label>
-          <input
-            type="text"
-            id="option3"
-            value={options[2]}
-            onChange={(event) => handleOptionChange(event, 2)}
-          />
-        </div>
-        <div>
-          <label htmlFor="option4">선택지 4:</label>
-          <input
-            type="text"
-            id="option4"
-            value={options[3]}
-            onChange={(event) => handleOptionChange(event, 3)}
-          />
-        </div>
-        <div>
-          <label htmlFor="answer">정답:</label>
+          <label htmlFor="answer">정답 : </label>
           <select
             id="answer"
             value={answer}
@@ -142,11 +150,13 @@ const AddQuestion = () => {
         </div>
 
         <div>
-          <label htmlFor="photo">사진:</label>
+          <label htmlFor="photo">사진 : </label>
           <input type="file" id="photo" onChange={handleFileChange} />
         </div>
 
-        <button type="submit">추가하기</button>
+        <button className={Styles.adm_btn} type="submit">
+          추가하기
+        </button>
       </form>
       <Getquestion />
     </>

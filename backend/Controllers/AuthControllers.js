@@ -393,7 +393,7 @@ module.exports.addContent = async (req, res) => {
 
     const updateObject = {
       $push: {
-        concept: concept !== null ? concept : "",
+        concept: concept !== null ? concept : [], // 빈 문자열인 경우에도 배열로 설정
         content: content !== null ? content : "",
         photo: photo ? photo.filename : null,
       },

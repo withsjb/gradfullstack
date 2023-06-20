@@ -36,12 +36,15 @@ import Wiki from "./pages/wiki";
 import Termadd from "./pages/termadd";
 import Linux from "./pages/Linux";
 import FileDetail from "./component/Filedetail";
+import Dashboard from "./pages/dashboard";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/test" element={<Test />}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/" element={<Secret />} />
