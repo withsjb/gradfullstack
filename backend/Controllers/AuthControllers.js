@@ -412,6 +412,33 @@ module.exports.addContent = async (req, res) => {
   }
 };
 
+module.exports.deleteContent = async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    const { concept, content } = req.body;
+    const photo = req.file; // 업로드된 사진 파일
+
+    const updateObject = {
+      $push: {
+        concept: concept !== null ? concept : [], // 빈 문자열인 경우에도 배열로 설정
+        content: content !== null ? content : "",
+        photo: photo ? photo.filename : null,
+      },
+    };
+
+    const updatedFile = await LinuxFile.findByIdAndUpdate(
+      fileId,
+      updateObject,
+      { new: true }
+    );
+
+    res.status(200).json(updatedFile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to add content and photo to file");
+  }
+};
+
 module.exports.addPhoto = async (req, res) => {
   try {
     const { fileId } = req.params;

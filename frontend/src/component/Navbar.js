@@ -34,7 +34,7 @@ const Navbar = () => {
       <nav className={Styles.navbar}>
         <Link to="/">
           <h3 className={Styles.logo}>
-            <img src="images/logo.png"></img>
+            <img src="images/logo1.png"></img>
           </h3>
         </Link>
         <ul
@@ -52,10 +52,6 @@ const Navbar = () => {
                 {" "}
                 <li>batch file</li>{" "}
               </Link>
-              <Link to="/linuxstudy">
-                {" "}
-                <li>linuxstudy</li>
-              </Link>
               <Link to="/select">
                 <li>select</li>
               </Link>
@@ -67,17 +63,17 @@ const Navbar = () => {
             <ul className={Styles.dropmenu}>
               <Link to="/roadmap">
                 {" "}
-                <li>윈도우 기초개념</li>{" "}
+                <li>Windows 기초</li>{" "}
               </Link>
               <Link to="/linuxstudy">
                 {" "}
-                <li>리눅스 기초개념</li>
+                <li>Linux 기초</li>
               </Link>
               <Link to="/select">
-                <li>윈도우</li>
+                <li>Windows</li>
               </Link>
               <Link to="/select">
-                <li>리눅스</li>
+                <li>Linux</li>
               </Link>
               <Link to="/select">
                 <li>Testbed</li>
@@ -96,20 +92,19 @@ const Navbar = () => {
                 {" "}
                 <li>wargame1</li>{" "}
               </Link>
-              <li>wargame3</li>
             </ul>{" "}
           </li>
 
-          <Link to="/">
-            <li className={Styles.navli}>
-              community
-              <ul className={Styles.dropmenu}>
+          <li className={Styles.navli}>
+            community
+            <ul className={Styles.dropmenu}>
+              <Link to="/">
                 <li>community1</li>
-                <li>community2</li>
-                <li>community3</li>
-              </ul>{" "}
-            </li>
-          </Link>
+              </Link>
+              <li>community2</li>
+              <li>community3</li>
+            </ul>{" "}
+          </li>
 
           <li className={Styles.navli}>
             admin
@@ -130,9 +125,11 @@ const Navbar = () => {
           </li>
 
           <Link to="/login">
-            <li className={Styles.navli}>login</li>
+            <li>Login</li>
           </Link>
-          <button onClick={logOut}>Log out</button>
+          <Link to="/login">
+            <li onClick={logOut}>Logout</li>
+          </Link>
         </ul>
         <button
           className={Styles.mobilemenu}

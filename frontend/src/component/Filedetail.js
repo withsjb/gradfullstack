@@ -105,7 +105,7 @@ const FileDetail = () => {
 
   const addContentAndPhoto = (formData) => {
     axios
-      .post(`http://localhost:4000/linux/files/${fileId}/addcontent`, formData)
+      .post(`http://localhost:4000/linux/files/${fileId}/content`, formData)
       .then((response) => {
         console.log(response.data);
         setFile(response.data);
@@ -137,8 +137,11 @@ const FileDetail = () => {
 
   const findMatchingTerm = (word) => {
     const matchingTerm = terms.find(
-      (term) => term.term.toLowerCase() === word.toLowerCase()
+      (term) => term.term.trim().toLowerCase() === word.trim().toLowerCase()
     );
+    /*const matchingTerm = terms.find(
+      (term) => term.term.toLowerCase() === word.toLowerCase()
+    );*/
     return matchingTerm ? matchingTerm.definition : "";
   };
 
@@ -254,7 +257,8 @@ const FileDetail = () => {
                   onMouseEnter={(e) => showDefinition(line, e)}
                   onMouseLeave={hideDefinition}
                 >
-                  {line.split(" ").map((word, wordIndex) => {
+                  {line.split().map((word, wordIndex) => {
+                    /*line.split("") 를 line.split() 이렇게 바꾸니까 띄어쓰기 인식됨 따로 알아봐야할듯*/
                     const matchingTerm = findMatchingTerm(word);
                     if (matchingTerm) {
                       return (
