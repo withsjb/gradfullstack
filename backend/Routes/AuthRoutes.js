@@ -76,8 +76,9 @@ router.route("/linux/files").get(getlinux).post(applinux);
 router.route("/linux/files/:fileId").get(getFile);
 
 router
-  .route("/linux/files/:fileId/addcontent")
-  .post(uploadMiddleware.single("photo"), addContent);
+  .route("/linux/files/:fileId/content")
+  .post(uploadMiddleware.single("photo"), addContent)
+  .delete();
 
 router
   .route("/linux/files/:fileId/addphoto")
