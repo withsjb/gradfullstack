@@ -98,7 +98,7 @@ const Navbar = () => {
           <li className={Styles.navli}>
             community
             <ul className={Styles.dropmenu}>
-              <Link to="/">
+              <Link to="/board">
                 <li>community1</li>
               </Link>
               <li>community2</li>
@@ -109,17 +109,29 @@ const Navbar = () => {
           <li className={Styles.navli}>
             admin
             <ul className={Styles.dropmenu}>
-              <Link to="/admin">
+              <Link to="/linuxproblem">
                 {" "}
-                <li>문제 수정</li>{" "}
+                <li>리눅스 문제 수정</li>{" "}
+              </Link>
+              <Link to="/windowproblem">
+                {" "}
+                <li>윈도우 문제 수정</li>{" "}
               </Link>
               <Link to="/termadd">
                 {" "}
                 <li>단어 주입</li>{" "}
               </Link>
+              <Link to="/window">
+                {" "}
+                <li>윈도우 개념추가</li>{" "}
+              </Link>
               <Link to="/Linux">
                 {" "}
                 <li>리눅스 개념추가</li>{" "}
+              </Link>
+              <Link to="/testbed">
+                {" "}
+                <li>TestBed 추가</li>{" "}
               </Link>
             </ul>
           </li>

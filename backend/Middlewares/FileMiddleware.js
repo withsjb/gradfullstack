@@ -4,31 +4,30 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads");
+    cb(null, "./public/zip");
   },
   filename: function (req, file, cb) {
     if (file) {
       cb(null, `${uuidv4()}_${path.extname(file.originalname)}`);
     } else {
-      cb(new Error("No file uploaded"), null); // 수정: 파일이 없는 경우 null 값으로 설정
+      cb(null, null);
     }
   },
 });
 
 const fileFilter = (req, file, cb) => {
   const allowedFileTypes = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/bmp",
+    "application/zip",
+    "application/x-zip-compressed",
+    "application/x-7z-compressed",
   ];
   if (allowedFileTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(null, false);
+    cb(new Error("Only .zip files are allowed."));
   }
 };
 
-const uploadMiddleware = multer({ storage, fileFilter });
+const fileMiddleware = multer({ storage, fileFilter });
 
-module.exports = uploadMiddleware;
+module.exports = fileMiddleware;

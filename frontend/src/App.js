@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import Secret from "./pages/Secret";
 import "react-toastify/dist/ReactToastify.css";
 import Problem from "./pages/problem";
-import Admin from "./pages/admin";
+import Linuxproblem from "./pages/Linuxproblem";
+import Windowproblem from "./pages/Windowproblem";
 import Getquestion from "./component/admin/getquestion";
 import Quizmain from "./pages/Quizmain";
 import Quiz from "./component/problem/Quiz";
@@ -32,11 +33,17 @@ import AddProblem from "./component/problem/AddProblem";
 import Changeproblem from "./component/problem/changeproblem";
 import { CheckUserExist } from "./helper/helper";
 import Test from "./pages/test";
-import Wiki from "./pages/wiki";
+
 import Termadd from "./pages/termadd";
 import Linux from "./pages/Linux";
+import Window from "./pages/Window";
+import WinFileDetail from "./component/winfiledetail";
 import FileDetail from "./component/Filedetail";
 import Dashboard from "./pages/dashboard";
+import TestBed from "./pages/TestBed";
+import Board from "./pages/Board";
+import BoardDetail from "./component/Board/Boarddetail";
+import PostDetail from "./component/Board/Postdetail";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
@@ -49,7 +56,8 @@ export default function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/" element={<Secret />} />
         <Route path="/mainpage" element={<Mainpage />}></Route>
-        <Route path="/admin" element={<Admin />}></Route>
+        <Route path="/linuxproblem" element={<Linuxproblem />}></Route>
+        <Route path="/windowproblem" element={<Windowproblem />}></Route>
         <Route path="/getquestion" element={<Getquestion />}></Route>
         <Route path="/quizmain" element={<Quizmain />}></Route>
 
@@ -91,10 +99,16 @@ export default function App() {
         <Route path="/side" element={<Side />}></Route>
         <Route path="/page" element={<Page />}></Route>
         <Route path="/select" element={<Select />}></Route>
-        <Route path="/wiki" element={<Wiki />}></Route>
+
         <Route path="/termadd" element={<Termadd />}></Route>
         <Route path="/linux" element={<Linux />}></Route>
+        <Route path="/window" element={<Window />}></Route>
         <Route path="/linux/:fileId" element={<FileDetail />} />
+        <Route path="/window/:fileId" element={<WinFileDetail />} />
+        <Route path="/testbed" element={<TestBed />}></Route>
+        <Route exact path="/board" element={<Board />} />
+        <Route exact path="/boarddetail" element={<BoardDetail />} />
+        <Route exact path="/postdetail/:id" element={<PostDetail />} />
       </Routes>
     </BrowserRouter>
   );

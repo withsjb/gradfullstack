@@ -93,3 +93,8 @@
   overflow: hidden;
   border-top: 3px solid rgba(255, 255, 255, 0.5);
 }
+
+.someOther {
+  background-color: aquamarine;
+  color: black;
+}
