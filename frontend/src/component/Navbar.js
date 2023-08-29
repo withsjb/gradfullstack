@@ -6,7 +6,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
-import Styles from "../styles/Header.module.css";
+import Styles from "../styles/Navbar.module.css";
 import { FaBars } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { useCookies } from "react-cookie";

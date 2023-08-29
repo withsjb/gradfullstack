@@ -28,6 +28,12 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const fileMiddleware = multer({ storage, fileFilter });
+const fileMiddleware = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 1000000 * 1024, // 5000000 KB (5000MB, 5GB)
+  },
+});
 
 module.exports = fileMiddleware;

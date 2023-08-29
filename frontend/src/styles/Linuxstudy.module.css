@@ -1,14 +1,15 @@
 .body {
-  background: rgb(195, 205, 209);
+  background: rgb(255, 255, 255);
   justify-content: center;
   padding-top: 1px;
   align-items: center;
 }
+/*card의 뒷 배경*/
 
 .card {
-  margin-top: 150px;
+  margin-top: 0px;
   position: relative;
-  width: 1100px;
+  width: 1000px;
   height: auto;
   overflow-y: auto;
   background-color: #fff;
@@ -21,56 +22,84 @@
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 100;
 }
+/*card의 바디 부분*/
+
+.card h2 {
+  margin-top: 80px;
+  margin-left: 80px;
+  margin-right: auto;
+  text-align: left;
+  font-size: 22pt;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+}
+/*card의 title 부분*/
 
 .card p {
-  margin-top: 30px;
-  margin-bottom: 350px;
-  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 100px;
+  margin-left: 70px;
+  margin-right: 60px;
+  font-size: 13pt;
   float: left;
   word-break: keep-all;
   text-align: left;
-  margin-left: 30px;
-  margin-right: 30px;
+  letter-spacing: 0.08rem;
+  border-top: black solid 1px;
+  border-bottom: black solid 1px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-
-.card h2 {
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
+/*card의 text부분*/
 
 .problem label {
   margin-top: 30px;
 }
 
 .side {
-  margin: auto;
+  margin-top: auto;
   position: fixed;
   right: 20px;
-  width: 180px;
-  height: 300px;
+  width: 160px;
+  height: 280px;
   background-color: white;
-  top: 300px;
-  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  top: 250px;
   overflow: hidden;
-  border-top: 3px solid rgba(255, 255, 255, 0.5);
+  border-top: 2px solid lightgray;
+  border-bottom: 2px solid lightgray;
+  border-radius: 20px;
+  padding-top: 50px;
+}
+
+.side_title {
+  width: 160px;
+  margin-top: -20px;
+  margin-left: -5px;
+  font-size: 14pt;
+  text-align: center;
 }
 
 .side div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
 }
+
+.side_cont {
+  margin-left: 25px;
+  margin-top: 15px;
+}
+/*side바의 버튼*/
 
 .side a {
   margin-top: 20px;
 }
 
-.middel {
+.middle {
   height: 500px;
 }
 
