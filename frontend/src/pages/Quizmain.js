@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setUserId } from "../redux/result_reducer";
 import Styles from "../styles/Quizmain.module.css";
+import Navbar from "../component/Navbar";
 
 export default function Main() {
   const inputRef = useRef(null);
@@ -16,6 +17,7 @@ export default function Main() {
 
   return (
     <div className={Styles.quizbody}>
+      <Navbar />
       <div className={Styles.container}>
         <h1 className={Styles.title}>Quiz Application</h1>
 
