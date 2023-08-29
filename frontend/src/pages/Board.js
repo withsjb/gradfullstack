@@ -17,7 +17,7 @@ function Board() {
   return (
     <div>
       <h1>게시판</h1>
-      <Link to="/add-post">게시글 추가</Link>
+      <Link to="/boarddetail">게시글 추가</Link>
       <div>
         {posts.map((post) => (
           <div key={post._id}>
