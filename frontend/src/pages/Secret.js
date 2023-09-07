@@ -11,6 +11,7 @@ import Styles from "../styles/Main.module.css";
 export default function Secret() {
   //스크롤이벤트
   const [position, setPosition] = useState(0);
+  const [user, setUser] = useState(null);
   function onScroll() {
     setPosition(window.scrollY);
     console.log(window.scrollY);
@@ -40,15 +41,31 @@ export default function Secret() {
         if (!data.status) {
           removeCookie("jwt");
           navigate("/login");
-        } else
-          toast(`반갑습니다! ${data.user} 🦄`, {
-            theme: "dark",
-            position: "bottom-right",
-          });
+        } else console.log(data.status);
+        toast(`반갑습니다! ${data.user} 🦄`, {
+          theme: "dark",
+          position: "bottom-right",
+        });
       }
     };
     verifyUser();
   }, [cookies, navigate, removeCookie]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000");
+        const userData = response.data; // 서버로부터 받은 사용자 정보
+        setUser(userData);
+
+        // 이제 userData를 상태로 설정하거나 다른 곳에 전달할 수 있습니다.
+      } catch (error) {
+        // 오류 처리
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -59,7 +76,7 @@ export default function Secret() {
             <div className={Styles.topglass}>
               <img src="images/hackera.jpg"></img>
             </div>
-            <h1 className={Styles.toptex}>welcome</h1>
+            <h1 className={Styles.toptex}>welcome </h1>
             <p className={Styles.topp}>
               If you want useful tutorials and fun problems to solve please go
               down

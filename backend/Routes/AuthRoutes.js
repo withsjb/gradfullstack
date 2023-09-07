@@ -54,6 +54,7 @@ const {
   wingetphoto,
   winaddPhoto,
   likes,
+  getuser,
 } = require("../Controllers/AuthControllers");
 const { checkUser } = require("../Middlewares/AuthMiddlewares");
 const uploadMiddleware = require("../Middlewares/MulterMiddleware");
@@ -64,6 +65,7 @@ const fileMiddleware = require("../Middlewares/FileMiddleware");
 const router = require("express").Router();
 
 router.post("/", checkUser);
+router.get("/", getuser);
 router.post("/register", register);
 router.post("/login", login);
 

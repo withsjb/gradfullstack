@@ -45,10 +45,19 @@ const handleErrors = (err) => {
   return errors;
 };
 
+module.exports.getuser = async (req, res) => {
+  try {
+    const user = await UserModel.find();
+    res.json(user);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 module.exports.register = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.create({ email, password });
+    const user = await UserModel.create({ email, password, role: "user" });
     const token = createToken(user.id);
 
     res.cookie("jwt", token, {
@@ -884,8 +893,24 @@ module.exports.downloadfile = async (req, res) => {
 //게시판
 module.exports.getboard = async (req, res) => {
   try {
-    const posts = await Board.find();
-    res.json(posts);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 20;
+
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = page * pageSize;
+
+    const totalPosts = await Board.countDocuments();
+    const totalPages = Math.ceil(totalPosts / pageSize);
+
+    const posts = await Board.find().skip(startIndex).limit(pageSize);
+
+    res.json({
+      page,
+      pageSize,
+      totalPosts,
+      totalPages, // 전체 페이지 수
+      posts,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

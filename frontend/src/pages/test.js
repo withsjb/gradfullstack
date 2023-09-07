@@ -318,9 +318,7 @@ const TestbedContent = () => {
     <div>
       <ul className={Styles.filelist}>
         <li className={Styles.file}>
-          <Link to="/linux/64907713d224bc4b21cdd442">
-            Test bed 설명 및 다운로드
-          </Link>
+          <Link to="/testbed">Test bed 설명 및 다운로드</Link>
         </li>
       </ul>
     </div>

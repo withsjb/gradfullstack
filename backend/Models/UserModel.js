@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is Required"],
   },
+  role: {
+    type: String,
+    required: [true, "Hello Admin"],
+  },
 });
 
 //비밀번호 암호화 salt 돌리고 hash함수로 암호화
