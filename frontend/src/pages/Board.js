@@ -65,12 +65,20 @@ function Board() {
         ))}
       </div>
       <div>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+        <button
+          className={Styles.nevebut}
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+        >
           이전 페이지
         </button>
         {/* 페이지 번호 목록 렌더링 */}
         {pageNumbers.map((pageNumber) => (
-          <button key={pageNumber} onClick={() => setPage(pageNumber)}>
+          <button
+            className={Styles.pagebutton}
+            key={pageNumber}
+            onClick={() => setPage(pageNumber)}
+          >
             {pageNumber}
           </button>
         ))}

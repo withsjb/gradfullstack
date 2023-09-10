@@ -283,171 +283,176 @@ const FileDetail = () => {
   }));
 
   return (
-    <div className={Styles.filebody}>
+    <>
       <Navbar />
-      <h2>{file.name}</h2>
+      <div className={Styles.filebody}>
+        <h2>{file.name}</h2>
 
-      <div className={Styles.conceptList}>
-        <ul>
-          {concepts.map((concept, index) => (
-            <li key={index} onClick={() => scrollToConcept(index + 1)}>
-              {concept}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={Styles.filecard}>
-        {sortedEntries.map((entry, index) => (
-          <div key={index} className={Styles.contentItem}>
-            {entry.concept !== null && entry.concept.trim() !== "" && (
-              <div
-                className={Styles.fileconceptdiv}
-                id={`concept-${index + 1}`}
-              >
-                {entry.concept}
-              </div>
-            )}
+        <div className={Styles.conceptList}>
+          <ul>
+            {concepts.map((concept, index) => (
+              <li key={index} onClick={() => scrollToConcept(index + 1)}>
+                {concept}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={Styles.filecard}>
+          {sortedEntries.map((entry, index) => (
+            <div key={index} className={Styles.contentItem}>
+              {entry.concept !== null && entry.concept.trim() !== "" && (
+                <div
+                  className={Styles.fileconceptdiv}
+                  id={`concept-${index + 1}`}
+                >
+                  {entry.concept}
+                </div>
+              )}
 
-            {editingIndex === index ? (
-              <div className={Styles.editContainer}>
-                {/* 수정 입력 필드 */}
+              {editingIndex === index ? (
+                <div className={Styles.editContainer}>
+                  {/* 수정 입력 필드 */}
 
-                <input
-                  type="text"
-                  value={editedConcepts[index]}
-                  onChange={(e) => {
-                    const updatedEditedConcepts = [...editedConcepts];
-                    updatedEditedConcepts[index] = e.target.value;
-                    setEditedConcepts(updatedEditedConcepts);
-                  }}
-                />
-
-                <textarea
-                  value={editedContents[index]}
-                  onChange={(e) => {
-                    const updatedEditedContents = [...editedContents];
-                    updatedEditedContents[index] = e.target.value;
-                    setEditedContents(updatedEditedContents);
-                  }}
-                />
-
-                {/* Concept 수정 입력 필드 */}
-
-                {/* Photo 수정 입력 필드 */}
-                <input
-                  type="file"
-                  accept="image/jpeg, image/jpg, image/png"
-                  onChange={(e) => {
-                    const newPhoto = e.target.files[0] || null;
-                    const updatedPhotos = [...editedPhotos];
-                    updatedPhotos[index] = newPhoto;
-                    setEditedPhotos(updatedPhotos);
-                  }}
-                />
-
-                <button onClick={() => saveEditedContent(index)}>Save</button>
-              </div>
-            ) : (
-              <div className={Styles.someOtherClass}>
-                {/* 이 부분은 조건이 거짓일 때 보여줄 내용 */}
-
-                {editingIndex === index && (
-                  <div className={Styles.editContainer}>
-                    {/* 수정 입력 필드 */}
-                    <textarea
-                      value={editedContents[index]}
-                      onChange={(e) => {
-                        const updatedEditedContents = [...editedContents];
-                        updatedEditedContents[index] = e.target.value;
-                        setEditedContents(updatedEditedContents);
-                      }}
-                    />
-
-                    {/* Concept 수정 입력 필드 */}
-                    <input
-                      type="text"
-                      value={editedConcept}
-                      onChange={(e) => setEditedConcept(e.target.value)}
-                    />
-
-                    {/* Photo 수정 입력 필드 */}
-                    <input
-                      type="file"
-                      accept="image/jpeg, image/jpg, image/png"
-                      onChange={(e) => setEditedPhoto(e.target.files[0])}
-                    />
-
-                    <button onClick={() => saveEditedContent(index)}>
-                      Save
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {entry.concept.trim() !== "" && index === updatedIndex && (
-              <div
-                className={Styles.fileconceptdiv}
-                id={`concept-${index + 1}`}
-              >
-                {entry.concept}
-              </div>
-            )}
-            <div className={Styles.filediv}>
-              {entry.content !== null &&
-                entry.content.split("<br/>").map((line, lineIndex) => (
-                  <div
-                    key={lineIndex}
-                    onMouseEnter={(e) => showDefinition(line, e)}
-                    onMouseLeave={hideDefinition}
-                  >
-                    {line.split().map((word, wordIndex) => {
-                      /*line.split("") 를 line.split() 이렇게 바꾸니까 띄어쓰기 인식됨 따로 알아봐야할듯*/
-                      const matchingTerm = findMatchingTerm(word);
-                      if (matchingTerm) {
-                        return (
-                          <span
-                            key={wordIndex}
-                            style={{ color: "blue" }}
-                            onMouseEnter={(e) => showDefinition(word, e)}
-                            onMouseLeave={hideDefinition}
-                          >
-                            {word}
-                          </span>
-                        );
-                      } else {
-                        return <span key={wordIndex}>{word}</span>;
-                      }
-                    })}
-                  </div>
-                ))}
-            </div>
-            <div className={Styles.photobox}>
-              {entry.photo !== "null" && entry.photo ? (
-                <div className={Styles.photoItem}>
-                  <img
-                    className={Styles.photos}
-                    src={entry.photo}
-                    alt={`Photo ${index + 1}`}
+                  <input
+                    type="text"
+                    value={editedConcepts[index]}
+                    onChange={(e) => {
+                      const updatedEditedConcepts = [...editedConcepts];
+                      updatedEditedConcepts[index] = e.target.value;
+                      setEditedConcepts(updatedEditedConcepts);
+                    }}
                   />
+
+                  <textarea
+                    value={editedContents[index]}
+                    onChange={(e) => {
+                      const updatedEditedContents = [...editedContents];
+                      updatedEditedContents[index] = e.target.value;
+                      setEditedContents(updatedEditedContents);
+                    }}
+                  />
+
+                  {/* Concept 수정 입력 필드 */}
+
+                  {/* Photo 수정 입력 필드 */}
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/jpg, image/png"
+                    onChange={(e) => {
+                      const newPhoto = e.target.files[0] || null;
+                      const updatedPhotos = [...editedPhotos];
+                      updatedPhotos[index] = newPhoto;
+                      setEditedPhotos(updatedPhotos);
+                    }}
+                  />
+
+                  <button onClick={() => saveEditedContent(index)}>Save</button>
                 </div>
               ) : (
-                <div className={Styles.photoItem} style={{ display: "none" }} />
+                <div className={Styles.someOtherClass}>
+                  {/* 이 부분은 조건이 거짓일 때 보여줄 내용 */}
+
+                  {editingIndex === index && (
+                    <div className={Styles.editContainer}>
+                      {/* 수정 입력 필드 */}
+                      <textarea
+                        value={editedContents[index]}
+                        onChange={(e) => {
+                          const updatedEditedContents = [...editedContents];
+                          updatedEditedContents[index] = e.target.value;
+                          setEditedContents(updatedEditedContents);
+                        }}
+                      />
+
+                      {/* Concept 수정 입력 필드 */}
+                      <input
+                        type="text"
+                        value={editedConcept}
+                        onChange={(e) => setEditedConcept(e.target.value)}
+                      />
+
+                      {/* Photo 수정 입력 필드 */}
+                      <input
+                        type="file"
+                        accept="image/jpeg, image/jpg, image/png"
+                        onChange={(e) => setEditedPhoto(e.target.files[0])}
+                      />
+
+                      <button onClick={() => saveEditedContent(index)}>
+                        Save
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
+
+              {entry.concept.trim() !== "" && index === updatedIndex && (
+                <div
+                  className={Styles.fileconceptdiv}
+                  id={`concept-${index + 1}`}
+                >
+                  {entry.concept}
+                </div>
+              )}
+              <div className={Styles.filediv}>
+                {entry.content !== null &&
+                  entry.content.split("<br/>").map((line, lineIndex) => (
+                    <div
+                      key={lineIndex}
+                      onMouseEnter={(e) => showDefinition(line, e)}
+                      onMouseLeave={hideDefinition}
+                    >
+                      {line.split().map((word, wordIndex) => {
+                        /*line.split("") 를 line.split() 이렇게 바꾸니까 띄어쓰기 인식됨 따로 알아봐야할듯*/
+                        const matchingTerm = findMatchingTerm(word);
+                        if (matchingTerm) {
+                          return (
+                            <span
+                              key={wordIndex}
+                              style={{ color: "blue" }}
+                              onMouseEnter={(e) => showDefinition(word, e)}
+                              onMouseLeave={hideDefinition}
+                            >
+                              {word}
+                            </span>
+                          );
+                        } else {
+                          return <span key={wordIndex}>{word}</span>;
+                        }
+                      })}
+                    </div>
+                  ))}
+              </div>
+              <div className={Styles.photobox}>
+                {entry.photo !== "null" && entry.photo ? (
+                  <div className={Styles.photoItem}>
+                    <img
+                      className={Styles.photos}
+                      src={entry.photo}
+                      alt={`Photo ${index + 1}`}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className={Styles.photoItem}
+                    style={{ display: "none" }}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      {showModal && (
-        <div
-          className={Styles.modal}
-          style={{ top: modalPosition.top, left: modalPosition.left }}
-          onClick={hideDefinition}
-        >
-          {modalContent}
+          ))}
         </div>
-      )}
-    </div>
+        {showModal && (
+          <div
+            className={Styles.modal}
+            style={{ top: modalPosition.top, left: modalPosition.left }}
+            onClick={hideDefinition}
+          >
+            {modalContent}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

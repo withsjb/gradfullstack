@@ -16,6 +16,17 @@
 }
 /*제목 옆 부제목*/
 
+.pagebutton {
+  width: 30px;
+  background-color: white;
+  color: black;
+  margin: auto;
+}
+.nevebut {
+  margin-top: auto;
+  margin-left: 20%;
+}
+
 .bar {
   position: relative;
   width: 1200px;

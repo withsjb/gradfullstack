@@ -810,83 +810,51 @@ module.exports.winaddPhoto = async (req, res) => {
 //파일 가져오기
 module.exports.gettestbedFile = async (req, res) => {
   try {
-    const files = await File.find({}, "filename filetext uploadDate").sort({
-      uploadDate: -1,
-    });
-    res.json(files);
+    const links = await File.find();
+    res.json(links);
   } catch (error) {
-    console.error("Error fetching files:", error);
-    res
-      .status(500)
-      .json({ error: "파일 목록을 불러오는 중 오류가 발생했습니다." });
+    console.error(error);
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
 //파일 업로드
 module.exports.uploadtestbedFile = async (req, res) => {
   try {
-    const { filename, originalname, mimetype, size } = req.file;
-    const { filetext } = req.body;
-
-    const newFile = new File({
-      filename,
-      originalname,
-      filetext,
-      mimetype,
-      size,
-    });
-
+    const { title, url } = req.body;
+    const newFile = new File({ title, url });
     await newFile.save();
-    res.json({ message: "압축 파일 업로드 완료" });
+    res.json(newFile);
   } catch (error) {
-    console.error("Error uploading zip file:", error);
-    res.status(500).json({ error: "압축 파일 업로드 중 오류가 발생했습니다." });
+    console.error(error);
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
 module.exports.deletetestbedFile = async (req, res) => {
-  const filename = req.params.filename;
-
   try {
-    const file = await File.findOne({ filename });
-
-    if (!file) {
-      return res.status(404).json({ error: "파일을 찾을 수 없습니다." });
-    }
-
-    await File.deleteOne({ filename });
-
-    // 파일 시스템에서도 파일 삭제
-    await fs.unlink(`./public/zip/${filename}`, (error) => {
-      if (error) {
-        console.error("Error deleting file:", error);
-      } else {
-        console.log("File deleted successfully.");
-      }
-    }); //콜백함수 알아보기
-
-    res.json({ message: "파일이 삭제되었습니다." });
+    const { id } = req.params;
+    await File.findByIdAndDelete(id);
+    res.json({ message: "링크 삭제 완료" });
   } catch (error) {
-    console.error("Error deleting file:", error);
-    res.status(500).json({ error: "파일 삭제 중 오류가 발생했습니다." });
+    console.error(error);
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
 module.exports.downloadfile = async (req, res) => {
   try {
-    const filename = req.params.filename;
-    const filePath = path.join(__dirname, "../public", "zip", filename); // 파일 경로 설정
-    console.log(filePath);
-
-    res.download(filePath, filename, (err) => {
-      if (err) {
-        console.error("Error downloading file:", err);
-        res.status(500).send("Error downloading file");
-      }
-    });
+    const { id } = req.params;
+    const { title, url } = req.body;
+    const updatedFile = await File.findByIdAndUpdate(
+      id,
+      { title, url },
+      { new: true }
+    );
+    res.json(updatedFile);
   } catch (error) {
-    console.error("Error handling file download:", error);
-    res.status(500).send("Error handling file download");
+    console.error(error);
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 

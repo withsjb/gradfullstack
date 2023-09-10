@@ -148,15 +148,9 @@ router
   .post(uploadMiddleware.single("photo"), winaddPhoto);
 
 //testbed
-router
-  .route("/testbedfile")
-  .get(gettestbedFile)
-  .post(fileMiddleware.single("zipfile"), uploadtestbedFile);
+router.route("/testbedfile").get(gettestbedFile).post(uploadtestbedFile);
 
-router
-  .route("/testbedfile/:filename")
-  .get(downloadfile)
-  .delete(deletetestbedFile);
+router.route("/testbedfile/:id").put(downloadfile).delete(deletetestbedFile);
 
 router.route("/board").get(getboard).post(postboard);
 
