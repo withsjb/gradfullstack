@@ -75,12 +75,10 @@
   /*color:black;*/
   width: 180px;
   line-height: 45px;
-  top: 46px;
   position: absolute;
-  opacity: 0;
   visibility: collapse;
-  margin-top: 36px;
   margin-left: -30px;
+  margin-top: 2px;
   box-shadow: 3px 10px 10px -2px rgb(100, 100, 100);
   left: -20px;
 }
@@ -123,7 +121,7 @@
 .navlinks li:hover .dropmenu {
   opacity: 1;
   visibility: visible;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .mobilemenu {
@@ -131,6 +129,17 @@
   background: none;
   font-size: 20px;
   display: none;
+}
+
+.logOut {
+  border-bottom: none;
+}
+
+.logOut:hover {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

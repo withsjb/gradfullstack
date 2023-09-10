@@ -56,7 +56,7 @@ const App = () => {
 
   return (
     <div className={Styles.tbody}>
-      <h1> Term add page </h1>
+      <h1 className={Styles.termtitle}> Term add page </h1>
       <div className={Styles.addExp}>
         <h2> - This page is to add terms and definitions. </h2>
       </div>
