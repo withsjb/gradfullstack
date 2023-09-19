@@ -348,8 +348,10 @@ module.exports.WinupdatQuestion = async (req, res) => {
 //**result부분 */
 module.exports.getResult = async (req, res) => {
   try {
-    const r = await Results.find();
-    res.json(r);
+    const topScores = await Results.find()
+      .sort({ points: -1 }) // points 필드를 기준으로 내림차순으로 정렬
+      .limit(10); // 상위 5개 점수만 가져옴
+    res.json(topScores);
   } catch (error) {
     res.json({ error });
   }

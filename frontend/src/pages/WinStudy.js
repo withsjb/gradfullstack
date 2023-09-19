@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Styles from "../styles/Test.module.css";
+import Styles from "../styles/WinStudy.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { faCaretUp } from "@fortawesome/free-solid-svg-icons";

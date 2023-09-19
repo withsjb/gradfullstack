@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Styles from "../styles/Linux.module.css";
+import Navbar from "../component/Navbar";
 
 const App = () => {
   const [linuxFiles, setLinuxFiles] = useState([]);
@@ -70,6 +71,7 @@ const App = () => {
 
   return (
     <div className={Styles.body}>
+      <Navbar />
       <div>
         <h2 className={Styles.title}>Linux Contents</h2>
         <div className={Styles.inp_form}>
