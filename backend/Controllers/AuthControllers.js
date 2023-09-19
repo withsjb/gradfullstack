@@ -15,8 +15,20 @@ const UploadModel = require("../Models/UploadModel");
 const File = require("../Models/fileuploadModel");
 const Board = require("../Models/boardModel");
 const QnAboard = require("../Models/QnAboard");
-
+const AWS = require("aws-sdk");
+const { v4: uuidv4 } = require("uuid");
 const maxAge = 3 * 24 * 60 * 60;
+
+const s3 = new AWS.S3({
+  accessKeyId: "AKIAWT2IDLWJE4QW76HK",
+  secretAccessKey: "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",
+  region: "ap-northeast-2",
+});
+
+// 파일 URL 얻는 함수
+function getFileUrl(fileKey) {
+  return `https://jinbin11.s3.ap-northeast-2.amazonaws.com/${fileKey}`;
+}
 
 const createToken = (id) => {
   return jwt.sign({ id }, "kishan sheth super secret key", {
@@ -526,19 +538,28 @@ module.exports.addContent = async (req, res) => {
     const { fileId } = req.params;
     const { concept, content } = req.body;
     const photo = req.file; // 업로드된 사진 파일
+    let photoUrl = null;
+
+    if (photo) {
+      // 업로드된 파일이 있을 때만 URL을 얻어옴
+      const fileKey = photo.key; // 업로드된 파일의 키(파일 이름)
+      photoUrl = getFileUrl(fileKey); // 파일 URL 얻기
+    }
 
     const updateObject = {
       $push: {
         concept: concept !== null ? concept : [], // 빈 문자열인 경우에도 배열로 설정
         content: content !== null ? content : "",
-        photo: photo ? photo.filename : "",
+        photo: photoUrl || "",
       },
     };
 
     const updatedFile = await LinuxFile.findByIdAndUpdate(
       fileId,
       updateObject,
-      { new: true }
+      {
+        new: true,
+      }
     );
 
     res.status(200).json(updatedFile);
@@ -602,7 +623,7 @@ module.exports.updatecontent = async (req, res) => {
 
     if (updatedPhoto) {
       // 새로운 사진 업로드한 경우에만 처리
-      const photoURL = `${updatedPhoto.filename}`;
+      const photoURL = updatedPhoto.location; // S3 업로드 후 URL
       fileToUpdate.photo[index] = photoURL;
     }
 
@@ -709,12 +730,19 @@ module.exports.winaddContent = async (req, res) => {
     const { fileId } = req.params;
     const { concept, content } = req.body;
     const photo = req.file; // 업로드된 사진 파일
+    let photoUrl = null;
+
+    if (photo) {
+      // 업로드된 파일이 있을 때만 URL을 얻어옴
+      const fileKey = photo.key; // 업로드된 파일의 키(파일 이름)
+      photoUrl = getFileUrl(fileKey); // 파일 URL 얻기
+    }
 
     const updateObject = {
       $push: {
         concept: concept !== null ? concept : [], // 빈 문자열인 경우에도 배열로 설정
         content: content !== null ? content : "",
-        photo: photo ? photo.filename : "",
+        photo: photoUrl || "",
       },
     };
 
@@ -783,7 +811,7 @@ module.exports.winupdatecontent = async (req, res) => {
 
     if (updatedPhoto) {
       // 새로운 사진 업로드한 경우에만 처리
-      const photoURL = `${updatedPhoto.filename}`;
+      const photoURL = updatedPhoto.location; // S3 업로드 후 URL
       fileToUpdate.photo[index] = photoURL;
     }
 

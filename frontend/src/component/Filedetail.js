@@ -78,7 +78,7 @@ const FileDetail = () => {
       .then((response) => {
         const photoURLs = response.data.photos.map((photo) => {
           if (photo) {
-            return `http://localhost:4000/uploads/${photo}`;
+            return `${photo}`;
           } else {
             return "";
           }
