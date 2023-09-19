@@ -19,19 +19,16 @@ export default function Main() {
     <div className={Styles.quizbody}>
       <Navbar />
       <div className={Styles.container}>
-        <h1 className={Styles.title}>Quiz Application</h1>
+        <h1 className={Styles.title}>Windows Quiz</h1>
 
         <ol>
-          <li>You will be asked 10 questions one after another.</li>
-          <li>10 points is awarded for the correct answer.</li>
-          <li>
-            Each question has three options. You can choose only one options.
-          </li>
-          <li>You can review and change answers before the quiz finish.</li>
-          <li>The result will be declared at the end of the quiz.</li>
+          <li> 5 문항이 출제되며 문제당 10점씩 입니다.</li>
+          <li>객관식의 경우 4지선다형 문제가 출제됩니다.</li>
+          <li> 답안 제출시 점수와 합격, 불합격 여부가 출력됩니다.</li>
+          <li> 그럼 행운을 빕니다!</li>
         </ol>
 
-        <form className={Styles.form} id="form">
+        <form className={Styles.userform} id="form">
           <input
             ref={inputRef}
             className={Styles.userid}
@@ -41,8 +38,8 @@ export default function Main() {
         </form>
 
         <div className={Styles.start}>
-          <Link className={Styles.btn} to={"/quiz"} onClick={startQuiz}>
-            Start Quiz
+          <Link className={Styles.startbtn} to={"/quiz"} onClick={startQuiz}>
+            시험시작
           </Link>
         </div>
       </div>
