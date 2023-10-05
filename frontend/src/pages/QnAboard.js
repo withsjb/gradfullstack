@@ -33,7 +33,7 @@ function Board() {
   );
 
   return (
-    <div>
+    <div className={Styles.boardbody}>
       <div>
         <Navbar />
         <h1 className={Styles.bh1}>
