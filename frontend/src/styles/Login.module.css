@@ -1,5 +1,17 @@
 /* login 페이지의 전체적인 틀 css*/
 
+button {
+  background-color: #014c66;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.7rem;
+  width: 400px;
+  margin: auto;
+}
+
 .body {
   display: flex;
   justify-content: center;

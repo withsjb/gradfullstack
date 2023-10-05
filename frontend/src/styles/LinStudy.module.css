@@ -18,7 +18,7 @@
 }
 
 .root {
-  background: white;
+  background: #f9f9f9;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -65,7 +65,7 @@
 .content {
   flex: 5;
   padding: 1rem;
-  background: whitesmoke;
+  background: #fcfcfc;
 }
 
 .filelist {
@@ -203,7 +203,7 @@
   margin-left: 3px;
 }
 .sidebar li:hover {
-  color: #337ab7;
+  color: purple;
   cursor: pointer;
 }
 
@@ -221,7 +221,7 @@
 }
 /*sidebar의 title*/
 .sidebar ul:hover {
-  color: #337ab7;
+  color: purple;
   cursor: pointer;
 }
 
@@ -242,7 +242,7 @@
 }
 
 .sidebar .active {
-  border-left: 3px solid #337ab7;
+  border-left: 3px solid purple;
 }
 
 .sidebar .subMenu a {

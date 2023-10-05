@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Styles from "../styles/Linux.module.css";
-
+import Navbar from "../component/Navbar";
 const App = () => {
   const [linuxFiles, setLinuxFiles] = useState([]);
   const [newFileName, setNewFileName] = useState("");
@@ -52,26 +52,29 @@ const App = () => {
   };
 
   return (
-    <div className={Styles.body}>
-      <div>
-        <h2 className={Styles.title}>Linux Contents</h2>
+    <>
+      <Navbar />
+      <div className={Styles.body}>
+        <div>
+          <h2 className={Styles.title}>Linux Contents</h2>
 
-        <div className={Styles.form_con}>
-          <ul>
-            {linuxFiles.map((file) => (
-              <li className={Styles.contents} key={file._id}>
-                <button
-                  className={Styles.con_btn}
-                  onClick={() => navigate(`/linux/user/${file._id}`)}
-                >
-                  {file.name}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div className={Styles.form_con}>
+            <ul>
+              {linuxFiles.map((file) => (
+                <li className={Styles.contents} key={file._id}>
+                  <button
+                    className={Styles.con_btn}
+                    onClick={() => navigate(`/linux/user/${file._id}`)}
+                  >
+                    {file.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

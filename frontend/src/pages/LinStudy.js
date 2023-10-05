@@ -34,6 +34,10 @@ const FileLoader = () => {
     content = <IdContentb />;
   } else if (selectedMenu === "id4") {
     content = <IdContentc />;
+  } else if (selectedMenu === "id5") {
+    content = <IdContentc />;
+  } else if (selectedMenu === "id6") {
+    content = <IdContentc />;
   } else if (selectedMenu === "settings") {
     content = <SettingsContent />;
   } else if (selectedMenu === "testbed") {
@@ -41,178 +45,180 @@ const FileLoader = () => {
   }
 
   return (
-    <div className={Styles.root}>
+    <>
       <Navbar />
-      <div className={Styles.contentContainer}>
-        <div className={Styles.sidebar}>
-          <div className={Styles.sidebardiv}>
-            <ul
-              onClick={() => setIsOpen((prev) => !prev)}
-              className={Styles.intro}
-            >
-              <i className={Styles.ulicon}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </i>{" "}
-              사전지식
-              {!isOpen ? (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretDown} />
-                </i>
-              ) : (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretUp} />
-                </i>
-              )}
-            </ul>
-            {isOpen && (
-              <li
-                href="#"
-                className={selectedMenu === "home" ? Styles.active : ""}
-                onClick={() => handleMenuClick("home")}
+      <div className={Styles.root}>
+        <div className={Styles.contentContainer}>
+          <div className={Styles.sidebar}>
+            <div className={Styles.sidebardiv}>
+              <ul
+                onClick={() => setIsOpen((prev) => !prev)}
+                className={Styles.intro}
               >
+                <i className={Styles.ulicon}>
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </i>{" "}
                 사전지식
-              </li>
-            )}
-          </div>
-
-          <div className={Styles.sidebardiv}>
-            <ul
-              onClick={() => setIsOpena((prev) => !prev)}
-              className={Styles.intro}
-            >
-              {" "}
-              <i className={Styles.ulicon}>
-                <FontAwesomeIcon icon={faFile} />
-              </i>{" "}
-              학습내용
-              {!isOpena ? (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretDown} />
-                </i>
-              ) : (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretUp} />
-                </i>
+                {!isOpen ? (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  </i>
+                ) : (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  </i>
+                )}
+              </ul>
+              {isOpen && (
+                <li
+                  href="#"
+                  className={selectedMenu === "home" ? Styles.active : ""}
+                  onClick={() => handleMenuClick("home")}
+                >
+                  사전지식
+                </li>
               )}
-            </ul>
-            {isOpena && (
-              <>
-                <li
-                  href="#"
-                  className={selectedMenu === "id" ? Styles.active : ""}
-                  onClick={() => handleMenuClick("id")}
-                >
-                  계정관리
-                </li>
-                <li
-                  href="#"
-                  className={selectedMenu === "id2" ? Styles.active : ""}
-                  onClick={() => handleMenuClick("id2")}
-                >
-                  파일 및 디렉터리 관리
-                </li>
-                <li
-                  href="#"
-                  className={selectedMenu === "id3" ? Styles.active : ""}
-                  onClick={() => handleMenuClick("id3")}
-                >
-                  서비스 관리
-                </li>
-                <li
-                  href="#"
-                  className={selectedMenu === "profile" ? Styles.active : ""}
-                  onClick={() => handleMenuClick("profile")}
-                >
-                  패치 관리
-                </li>
-                <li
-                  href="#"
-                  className={selectedMenu === "profile" ? Styles.active : ""}
-                  onClick={() => handleMenuClick("profile")}
-                >
-                  로그 관리
-                </li>
-              </>
-            )}
-          </div>
+            </div>
 
-          <div className={Styles.sidebardiv}>
-            <ul
-              onClick={() => setIsOpenc((prev) => !prev)}
-              className={Styles.intro}
-            >
-              {" "}
-              <i className={Styles.ulicon}>
-                <FontAwesomeIcon icon={faPencil} />
-              </i>{" "}
-              문제풀이
-              {!isOpenc ? (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretDown} />
-                </i>
-              ) : (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretUp} />
-                </i>
-              )}
-            </ul>
-            {isOpenc && (
-              <li
-                href="#"
-                className={selectedMenu === "id4" ? Styles.active : ""}
-                onClick={() => handleMenuClick("id4")}
+            <div className={Styles.sidebardiv}>
+              <ul
+                onClick={() => setIsOpena((prev) => !prev)}
+                className={Styles.intro}
               >
-                Linux 퀴즈
-              </li>
-            )}
-          </div>
-
-          <div className={Styles.sidebardiv}>
-            <ul
-              onClick={() => setIsOpend((prev) => !prev)}
-              className={Styles.intro}
-            >
-              {" "}
-              <i className={Styles.ulicon}>
-                <FontAwesomeIcon icon={faComputer} />
-              </i>{" "}
-              Testbed
-              {!isOpend ? (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretDown} />
-                </i>
-              ) : (
-                <i className={Styles.icon}>
-                  <FontAwesomeIcon icon={faCaretUp} />
-                </i>
+                {" "}
+                <i className={Styles.ulicon}>
+                  <FontAwesomeIcon icon={faFile} />
+                </i>{" "}
+                학습내용
+                {!isOpena ? (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  </i>
+                ) : (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  </i>
+                )}
+              </ul>
+              {isOpena && (
+                <>
+                  <li
+                    href="#"
+                    className={selectedMenu === "id" ? Styles.active : ""}
+                    onClick={() => handleMenuClick("id")}
+                  >
+                    계정관리
+                  </li>
+                  <li
+                    href="#"
+                    className={selectedMenu === "id2" ? Styles.active : ""}
+                    onClick={() => handleMenuClick("id2")}
+                  >
+                    파일 및 디렉터리 관리
+                  </li>
+                  <li
+                    href="#"
+                    className={selectedMenu === "id3" ? Styles.active : ""}
+                    onClick={() => handleMenuClick("id3")}
+                  >
+                    서비스 관리
+                  </li>
+                  <li
+                    href="#"
+                    className={selectedMenu === "id4" ? Styles.active : ""}
+                    onClick={() => handleMenuClick("id4")}
+                  >
+                    패치 관리
+                  </li>
+                  <li
+                    href="#"
+                    className={selectedMenu === "id5" ? Styles.active : ""}
+                    onClick={() => handleMenuClick("id5")}
+                  >
+                    로그 관리
+                  </li>
+                </>
               )}
-            </ul>
-            {isOpend && (
-              <li
-                href="#"
-                className={selectedMenu === "testbed" ? Styles.active : ""}
-                onClick={() => handleMenuClick("testbed")}
+            </div>
+
+            <div className={Styles.sidebardiv}>
+              <ul
+                onClick={() => setIsOpenc((prev) => !prev)}
+                className={Styles.intro}
               >
-                File
-              </li>
-            )}
+                {" "}
+                <i className={Styles.ulicon}>
+                  <FontAwesomeIcon icon={faPencil} />
+                </i>{" "}
+                문제풀이
+                {!isOpenc ? (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  </i>
+                ) : (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  </i>
+                )}
+              </ul>
+              {isOpenc && (
+                <li
+                  href="#"
+                  className={selectedMenu === "id6" ? Styles.active : ""}
+                  onClick={() => handleMenuClick("id6")}
+                >
+                  Linux 퀴즈
+                </li>
+              )}
+            </div>
+
+            <div className={Styles.sidebardiv}>
+              <ul
+                onClick={() => setIsOpend((prev) => !prev)}
+                className={Styles.intro}
+              >
+                {" "}
+                <i className={Styles.ulicon}>
+                  <FontAwesomeIcon icon={faComputer} />
+                </i>{" "}
+                Testbed
+                {!isOpend ? (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretDown} />
+                  </i>
+                ) : (
+                  <i className={Styles.icon}>
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  </i>
+                )}
+              </ul>
+              {isOpend && (
+                <li
+                  href="#"
+                  className={selectedMenu === "testbed" ? Styles.active : ""}
+                  onClick={() => handleMenuClick("testbed")}
+                >
+                  File
+                </li>
+              )}
+            </div>
+          </div>
+          <div className={Styles.content}>
+            <h2 className={Styles.testh2}>
+              <i className={Styles.hicon}>
+                {" "}
+                <FontAwesomeIcon icon={faFileLines} />
+              </i>{" "}
+              Linux File List
+            </h2>
+            {content}
           </div>
         </div>
-        <div className={Styles.content}>
-          <h2 className={Styles.testh2}>
-            <i className={Styles.hicon}>
-              {" "}
-              <FontAwesomeIcon icon={faFileLines} />
-            </i>{" "}
-            File List
-          </h2>
-          {content}
+        <div className={Styles.footer}>
+          <span></span>
         </div>
       </div>
-      <div className={Styles.footer}>
-        <span></span>
-      </div>
-    </div>
+    </>
   );
 };
 
@@ -240,7 +246,7 @@ const IdContent = () => {
         <li className={Styles.file}>
           <Link
             className={Styles.filelink}
-            to="/linux/user/64903c71d224bc4b21cdcf26"
+            to="/linux/user/64904fd7d224bc4b21cdd163"
           >
             계정관리 1
           </Link>
@@ -409,7 +415,7 @@ const IdContentc = () => {
     <div>
       <ul className={Styles.filelist}>
         <li className={Styles.file}>
-          <Link className={Styles.filelink} to="/quizmain">
+          <Link className={Styles.filelink} to="/LinuxQuizmain">
             {" "}
             1장 퀴즈
           </Link>
@@ -438,7 +444,7 @@ const SettingsContent = () => {
     <div>
       <ul className={Styles.filelist}>
         <li className={Styles.file}>
-          <Link className={Styles.filelink} to="/quizmain">
+          <Link className={Styles.filelink} to="/LinuxQuiz">
             퀴즈 풀기
           </Link>
         </li>

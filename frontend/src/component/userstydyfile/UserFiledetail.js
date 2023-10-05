@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Styles from "../../styles/Filedetail.module.css";
+import Styles from "../../styles/UserFiledetail.module.css";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-const FileDetail = () => {
+const UserFileDetail = () => {
   const [file, setFile] = useState({
     concept: [],
     content: [],
@@ -289,19 +289,21 @@ const FileDetail = () => {
     <>
       <Navbar />
       <div className={Styles.filebody}>
-        <h2 className={Styles.filetitle}>
-          {" "}
-          Linux{" "}
-          <i className={Styles.icon}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </i>
-        </h2>
-        <h3 className={Styles.filesub}>
-          <i className={Styles.icon}>
-            <FontAwesomeIcon icon={faBook} />
-          </i>{" "}
-          {file.name}
-        </h3>
+        <div className={Styles.logobook}>
+          <h2 className={Styles.filetitle}>
+            {" "}
+            Linux{" "}
+            <i className={Styles.icon}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </i>
+          </h2>
+          <h3 className={Styles.filesub}>
+            <i className={Styles.icon}>
+              <FontAwesomeIcon icon={faBook} />
+            </i>{" "}
+            {file.name}
+          </h3>
+        </div>
 
         <div className={Styles.conceptList}>
           <ul>
@@ -475,4 +477,4 @@ const FileDetail = () => {
   );
 };
 
-export default FileDetail;
+export default UserFileDetail;
