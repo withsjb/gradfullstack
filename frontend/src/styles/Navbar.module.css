@@ -134,6 +134,7 @@
 
 .logOut {
   border-bottom: none;
+  margin-left: 50px;
 }
 
 .logOut:hover {

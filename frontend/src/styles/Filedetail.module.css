@@ -6,6 +6,8 @@
   display: flex;
   flex-wrap: wrap;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  height: auto;
+  position: relative;
 }
 
 .filetitle {
@@ -37,18 +39,19 @@
 
 .filecard {
   margin-top: 20px;
-  width: 1150px;
+  width: 950px;
   height: auto;
-  overflow-y: auto;
+
   /*  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);*/
-  overflow: hidden;
+
   border-top: 3px solid rgba(255, 255, 255, 0.5);
-  transition: 1s;
+
   justify-content: center;
   align-items: center;
   margin-left: 10px;
   margin-right: auto;
   margin-bottom: 300px;
+  border: #555;
 }
 /*파일 body*/
 
@@ -91,8 +94,8 @@
 }
 
 .photobox {
-  max-width: 500px;
-  max-height: 400px;
+  max-width: auto;
+  max-height: auto;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -113,6 +116,7 @@
   margin-left: 40px;
   border-radius: 10px;
   border: 2px solid #999;
+  z-index: 3333;
 }
 /*file업로드 양식 div*/
 
@@ -142,6 +146,7 @@
   padding-top: 5px;
   padding-left: 10px;
   resize: none;
+  border: red;
 }
 /*컨텐츠 내용 입력 란*/
 
