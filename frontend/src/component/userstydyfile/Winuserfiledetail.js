@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Styles from "../styles/Filedetail.module.css";
-import Navbar from "../component/Navbar";
+import Styles from "../../styles/UserFiledetail.module.css";
+import Navbar from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-const FileDetail = () => {
+const UserFileDetail = () => {
   const [file, setFile] = useState({
     concept: [],
     content: [],
@@ -55,7 +52,7 @@ const FileDetail = () => {
 
   const fetchFile = () => {
     axios
-      .get(`http://localhost:4000/linux/files/${fileId}`)
+      .get(`http://localhost:4000/win/files/${fileId}`)
       .then((response) => {
         const fetchedFile = response.data;
         if (fetchedFile.concept === null) {
@@ -81,7 +78,7 @@ const FileDetail = () => {
 
   const fetchPhotos = () => {
     axios
-      .get(`http://localhost:4000/linux/files/${fileId}/addphoto`)
+      .get(`http://localhost:4000/win/files/${fileId}/addphoto`)
       .then((response) => {
         const photoURLs = response.data.photos.map((photo) => {
           if (photo) {
@@ -97,71 +94,8 @@ const FileDetail = () => {
       });
   };
 
-  const handleAddContentAndPhoto = () => {
-    const formData = new FormData();
-    if (photo) {
-      formData.append("photo", photo);
-    }
-
-    if (concept.trim() === "") {
-      formData.append("concept", ""); // 새로운 컨셉 추가
-    } else {
-      formData.append("concept", concept);
-    }
-
-    if (content.trim() === "") {
-      formData.append("content", "");
-    } else {
-      formData.append("content", content);
-    }
-
-    addContentAndPhoto(formData);
-    if (concept.trim() === "" && content.trim() !== "") {
-      setConcept("null"); // 컨셉 값이 비어있을 때 "null"로 업데이트
-    }
-  };
-
-  const addContentAndPhoto = (formData) => {
-    axios
-      .post(`http://localhost:4000/linux/files/${fileId}/content`, formData)
-      .then((response) => {
-        console.log(response.data);
-        setFile(response.data);
-        setConcept("");
-        setContent("");
-        setPhoto("");
-        fetchPhotos();
-        if (updatedIndex !== -1) {
-          setConcepts((prevConcepts) => {
-            const updatedConcepts = [...prevConcepts];
-            if (concept.trim() === "") {
-              updatedConcepts.splice(updatedIndex, 0, "null");
-            } else {
-              updatedConcepts.splice(updatedIndex, 0, concept);
-            }
-            return updatedConcepts;
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   //수정파트
   // 수정 버튼을 누를 때 실행되는 함수
-  const handleEdit = (index) => {
-    setEditingIndex(index);
-
-    // 수정한 내용을 복사해서 상태에 저장
-    setEditedConcepts([...file.concept]);
-    setEditedContents([...file.content]);
-    setEditedPhotos([...file.photo]);
-
-    // 현재 concept와 photo를 상태에 저장
-    setEditedConcept(editedConcepts[index]);
-    setEditedPhoto(editedPhotos[index]);
-  };
 
   // 수정 내용 저장 및 서버 업데이트 함수
   const saveEditedContent = async (index) => {
@@ -178,7 +112,7 @@ const FileDetail = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:4000/linux/files/${fileId}/content/${index}`,
+        `http://localhost:4000/win/files/${fileId}/content/${index}`,
         formData
       );
 
@@ -194,7 +128,7 @@ const FileDetail = () => {
   const handleDelete = async (index) => {
     try {
       const response = await axios.delete(
-        `http://localhost:4000/linux/files/${fileId}/content/${index}`
+        `http://localhost:4000/win/files/${fileId}/content/${index}`
       );
 
       if (response.status === 200) {
@@ -292,50 +226,22 @@ const FileDetail = () => {
     <>
       <Navbar />
       <div className={Styles.filebody}>
-        <div className={Styles.conceptinputbody}>
-          <h2 className={Styles.concepttitlename}>
-            <i className={Styles.eicon}>
-              <FontAwesomeIcon icon={faBookmark} />
+        <div className={Styles.logobook}>
+          <h2 className={Styles.filetitle}>
+            {" "}
+            Linux{" "}
+            <i className={Styles.icon}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </i>
+          </h2>
+          <h3 className={Styles.filesub}>
+            <i className={Styles.icon}>
+              <FontAwesomeIcon icon={faBook} />
             </i>{" "}
             {file.name}
-          </h2>
-          <input
-            className={Styles.concepttitle}
-            type="text"
-            placeholder="컨텐츠 제목 입력"
-            value={concept}
-            onChange={(event) => setConcept(event.target.value)}
-          />
-
-          <textarea
-            className={Styles.contentbox}
-            placeholder="컨텐츠 입력"
-            value={content}
-            onChange={(event) => {
-              const value = event.target.value;
-              const formattedValue = value.replace(/\r?\n/g, "\n");
-              setContent(formattedValue);
-            }}
-          />
-
-          <input
-            className={Styles.imginput}
-            type="file"
-            accept="image/jpeg, image/jpg, image/png"
-            onChange={handleFileSelect}
-          />
-
-          <button
-            className={Styles.fileuploadbtn}
-            onClick={handleAddContentAndPhoto}
-          >
-            {" "}
-            File Upload{" "}
-            <i className={Styles.eicon}>
-              <FontAwesomeIcon icon={faFileArrowUp} />
-            </i>
-          </button>
+          </h3>
         </div>
+
         <div className={Styles.conceptList}>
           <ul>
             {concepts.map((concept, index) => (
@@ -398,42 +304,14 @@ const FileDetail = () => {
                     }}
                   />
 
-                  <button
-                    className={Styles.filesavebtn}
-                    onClick={() => saveEditedContent(index)}
-                  >
-                    <i className={Styles.icon}>
-                      <FontAwesomeIcon icon={faCheck} />
-                    </i>{" "}
-                    Save
-                  </button>
+                  <button onClick={() => saveEditedContent(index)}>Save</button>
                 </div>
               ) : (
                 <div className={Styles.someOtherClass}>
                   {/* 이 부분은 조건이 거짓일 때 보여줄 내용 */}
-                  <button
-                    className={Styles.fileeditbtn}
-                    onClick={() => handleEdit(index)}
-                  >
-                    {" "}
-                    <i className={Styles.eicon}>
-                      <FontAwesomeIcon icon={faGear} />
-                    </i>{" "}
-                    Edit
-                  </button>
-                  <button
-                    className={Styles.filedeletetbtn}
-                    onClick={() => handleDelete(index)}
-                  >
-                    Delete{" "}
-                    <i className={Styles.icon}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </i>
-                  </button>
+
                   {editingIndex === index && (
                     <div className={Styles.editContainer}>
-                      <h2>Please Edit </h2>
-
                       {/* 수정 입력 필드 */}
                       <textarea
                         value={editedContents[index]}
@@ -443,25 +321,22 @@ const FileDetail = () => {
                           setEditedContents(updatedEditedContents);
                         }}
                       />
+
                       {/* Concept 수정 입력 필드 */}
                       <input
                         type="text"
                         value={editedConcept}
                         onChange={(e) => setEditedConcept(e.target.value)}
                       />
+
                       {/* Photo 수정 입력 필드 */}
                       <input
                         type="file"
                         accept="image/jpeg, image/jpg, image/png"
                         onChange={(e) => setEditedPhoto(e.target.files[0])}
                       />
-                      <button
-                        className={Styles.filesavebtn}
-                        onClick={() => saveEditedContent(index)}
-                      >
-                        <i className={Styles.icon}>
-                          <FontAwesomeIcon icon={faCheck} />
-                        </i>
+
+                      <button onClick={() => saveEditedContent(index)}>
                         Save
                       </button>
                     </div>
@@ -477,7 +352,7 @@ const FileDetail = () => {
                   {entry.concept}
                 </div>
               )}
-              <div className={Styles.filediv}>
+              <div className={Styles.filetext}>
                 {entry.content !== null &&
                   entry.content.split("<br/>").map((line, lineIndex) => (
                     <div
@@ -539,4 +414,4 @@ const FileDetail = () => {
   );
 };
 
-export default FileDetail;
+export default UserFileDetail;

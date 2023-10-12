@@ -46,6 +46,19 @@ const Navbar = () => {
     fetchUserEmail();
   }, [cookies]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setMobile(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <nav className={Styles.navbar}>
@@ -78,6 +91,9 @@ const Navbar = () => {
               <Link to="/LinStudy">
                 {" "}
                 <li>Linux 기초</li>
+              </Link>
+              <Link to="/Usertermadd">
+                <li>취약점 단어장</li>
               </Link>
 
               <Link to="/testbed">

@@ -37,6 +37,7 @@ import { CheckUserExist } from "./helper/helper";
 import WinStudy from "./pages/WinStudy";
 import LinStudy from "./pages/LinStudy";
 import Termadd from "./pages/termadd";
+import Usertermadd from "./pages/usertermadd";
 import Linux from "./pages/Linux";
 import Window from "./pages/Window";
 import WinFileDetail from "./component/winfiledetail";
@@ -50,6 +51,7 @@ import QnABoard from "./pages/QnAboard";
 import QnABoardDetail from "./component/Board/QnABoarddetail";
 import QnAPostDetail from "./component/Board/QnAPostdetail";
 import UserFileDetail from "./component/userstydyfile/UserFiledetail";
+import Winuserfiledetail from "./component/userstydyfile/Winuserfiledetail";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -124,12 +126,15 @@ export default function App() {
           <Route path="/select" element={<Select />}></Route>
 
           <Route path="/termadd" element={<Termadd />}></Route>
+          <Route path="/Usertermadd" element={<Usertermadd />}></Route>
+
           <Route path="/linux" element={<Linux />}></Route>
           <Route path="/window" element={<Window />}></Route>
           <Route path="/linux/:fileId" element={<FileDetail />} />
           <Route path="/linux/user/:fileId" element={<UserFileDetail />} />
+          <Route path="/window/user/:fileId" element={<Winuserfiledetail />} />
 
-          <Route path="/window/user/:fileId" element={<WinFileDetail />} />
+          <Route path="/window/:fileId" element={<WinFileDetail />} />
           <Route path="/testbed" element={<TestBed />}></Route>
           <Route exact path="/board" element={<Board />} />
           <Route exact path="/boarddetail" element={<BoardDetail />} />

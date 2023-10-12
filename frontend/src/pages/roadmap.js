@@ -8,55 +8,62 @@ import {
   faBook,
   faFilePen,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 const ArticleNavigator = () => {
   const articles = [
     {
       id: 1,
-      concept: "concept 1",
-      content: "Article 1 content...",
+      concept: "서론",
+      content: "순서대로 따라가보세요!",
       isVisible: false,
     },
     {
       id: 2,
-      concept: "concept 2",
-      content: "Article 2 content...",
+      concept: "리눅스 구조",
+      content: <Link to="/linux/user/649050c0d224bc4b21cdd17c">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 3,
-      concept: "concept 3",
-      content: "Article 3 content...",
+      concept: "설치가이드 페이지",
+      content: <Link to="/linux/user/65286499a03da16836bc5b3a">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 4,
-      concept: "concept 4",
-      content: "Article 3 content...",
+      concept: " 로그 기본 설정",
+      content: <Link to="/linux/user/652618ebd55a4e8632033802">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 5,
-      concept: "concept 5",
-      content: "Article 3 content...",
+      concept: "Shell script 기초",
+      content: <Link to="/window/user/651f7ab84e8ce931808e6211">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 6,
-      concept: "Hello",
-      content: "Articleb 21 content...",
+      concept: "hello",
+      content: "11",
       isVisible: false,
     },
     {
       id: 7,
-      concept: "Hello",
-      content: "Articleb 22 content...",
+      concept: "Windows 기초",
+      content: <Link to="/WinStudy">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 8,
-      concept: "Hello",
-      content: "Articleb 23 content...",
+      concept: "Linux 기초",
+      content: <Link to="/LinStudy">Go Page</Link>,
       isVisible: false,
     },
     {
@@ -73,20 +80,26 @@ const ArticleNavigator = () => {
     },
     {
       id: 11,
-      concept: "Hellok",
-      content: "Articleb 25 content...",
+      concept: "Testbed",
+      content: <Link to="/linux/user/64907713d224bc4b21cdd442">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 12,
-      concept: "Hellok",
-      content: "Articleb 25 content...",
+      concept: "test bed",
+      content: <Link to="/linux/user/64907713d224bc4b21cdd442">Go Page</Link>,
       isVisible: false,
     },
     {
       id: 13,
-      concept: "Hellok",
-      content: "Articleb 25 content...",
+      concept: "Windows 문제",
+      content: <Link to="/WindowsQuizmain">Go Page</Link>,
+      isVisible: false,
+    },
+    {
+      id: 14,
+      concept: "Linux 문제",
+      content: <Link to="/LinuxQuizmain">Go Page</Link>,
       isVisible: false,
     },
     // ... 추가적인 article 데이터
@@ -141,12 +154,12 @@ const ArticleNavigator = () => {
   return (
     <div className={Styles.body}>
       <Navbar />
-      <div class="d-flex justify-content-center align-items-center flex-column mb-4">
+      <div className="d-flex justify-content-center align-items-center flex-column mb-4">
         <h1 className={Styles.h1}>추천 루트를 소개합니다!</h1>
 
-        <p class="w-75 text-white text-center">
-          처음 오신 분들을 위해 저희가 준비한 가이드 라인입니다. 입문하시는
-          분들계서는 처음 부터 진행하시면 도움이 되실겁니다.{" "}
+        <p className="w-75 text-white text-center">
+          처음 오신 분들을 위해 저희가 준비한 가이드라인입니다. 입문하시는
+          분들께서는 처음부터 진행하시면 도움이 되실 겁니다.{" "}
         </p>
       </div>
       <div className={Styles.one}>
@@ -173,7 +186,7 @@ const ArticleNavigator = () => {
           }`}
         >
           <FontAwesomeIcon className={Styles.circleicon} icon={faFilePen} />
-          <h4>STEP 2</h4>Ready for this?
+          <h4>STEP 3</h4>Ready for this?
         </div>
 
         <div className={Styles.oneroadmap}>
@@ -198,7 +211,7 @@ const ArticleNavigator = () => {
               </h2>
 
               {article.isVisible && (
-                <p
+                <div
                   className={`${Styles.p} ${
                     article.isVisible ? Styles.visible : ""
                   }`}
@@ -222,7 +235,7 @@ const ArticleNavigator = () => {
                       Next
                     </button>
                   </nav>
-                </p>
+                </div>
               )}
             </article>
           ))}
