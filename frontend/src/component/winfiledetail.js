@@ -293,50 +293,6 @@ const FileDetail = () => {
     <>
       <Navbar />
       <div className={Styles.filebody}>
-        <div className={Styles.conceptinputbody}>
-          <h2 className={Styles.concepttitlename}>
-            <i className={Styles.eicon}>
-              <FontAwesomeIcon icon={faBookmark} />
-            </i>{" "}
-            {file.name}
-          </h2>
-          <input
-            className={Styles.concepttitle}
-            type="text"
-            placeholder="컨텐츠 제목 입력"
-            value={concept}
-            onChange={(event) => setConcept(event.target.value)}
-          />
-
-          <textarea
-            className={Styles.contentbox}
-            placeholder="컨텐츠 입력"
-            value={content}
-            onChange={(event) => {
-              const value = event.target.value;
-              const formattedValue = value.replace(/\r?\n/g, "\n");
-              setContent(formattedValue);
-            }}
-          />
-
-          <input
-            className={Styles.imginput}
-            type="file"
-            accept="image/jpeg, image/jpg, image/png"
-            onChange={handleFileSelect}
-          />
-
-          <button
-            className={Styles.fileuploadbtn}
-            onClick={handleAddContentAndPhoto}
-          >
-            {" "}
-            File Upload{" "}
-            <i className={Styles.eicon}>
-              <FontAwesomeIcon icon={faFileArrowUp} />
-            </i>
-          </button>
-        </div>
         <div className={Styles.conceptList}>
           <ul>
             {concepts.map((concept, index) => (

@@ -94,71 +94,8 @@ const UserFileDetail = () => {
       });
   };
 
-  const handleAddContentAndPhoto = () => {
-    const formData = new FormData();
-    if (photo) {
-      formData.append("photo", photo);
-    }
-
-    if (concept.trim() === "") {
-      formData.append("concept", ""); // 새로운 컨셉 추가
-    } else {
-      formData.append("concept", concept);
-    }
-
-    if (content.trim() === "") {
-      formData.append("content", "");
-    } else {
-      formData.append("content", content);
-    }
-
-    addContentAndPhoto(formData);
-    if (concept.trim() === "" && content.trim() !== "") {
-      setConcept("null"); // 컨셉 값이 비어있을 때 "null"로 업데이트
-    }
-  };
-
-  const addContentAndPhoto = (formData) => {
-    axios
-      .post(`http://localhost:4000/linux/files/${fileId}/content`, formData)
-      .then((response) => {
-        console.log(response.data);
-        setFile(response.data);
-        setConcept("");
-        setContent("");
-        setPhoto("");
-        fetchPhotos();
-        if (updatedIndex !== -1) {
-          setConcepts((prevConcepts) => {
-            const updatedConcepts = [...prevConcepts];
-            if (concept.trim() === "") {
-              updatedConcepts.splice(updatedIndex, 0, "null");
-            } else {
-              updatedConcepts.splice(updatedIndex, 0, concept);
-            }
-            return updatedConcepts;
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   //수정파트
   // 수정 버튼을 누를 때 실행되는 함수
-  const handleEdit = (index) => {
-    setEditingIndex(index);
-
-    // 수정한 내용을 복사해서 상태에 저장
-    setEditedConcepts([...file.concept]);
-    setEditedContents([...file.content]);
-    setEditedPhotos([...file.photo]);
-
-    // 현재 concept와 photo를 상태에 저장
-    setEditedConcept(editedConcepts[index]);
-    setEditedPhoto(editedPhotos[index]);
-  };
 
   // 수정 내용 저장 및 서버 업데이트 함수
   const saveEditedContent = async (index) => {

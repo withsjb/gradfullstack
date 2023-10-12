@@ -13,31 +13,31 @@ const ArticleNavigator = () => {
   const articles = [
     {
       id: 1,
-      concept: "Hello",
+      concept: "concept 1",
       content: "Article 1 content...",
       isVisible: false,
     },
     {
       id: 2,
-      concept: "Hello",
+      concept: "concept 2",
       content: "Article 2 content...",
       isVisible: false,
     },
     {
       id: 3,
-      concept: "Hello",
+      concept: "concept 3",
       content: "Article 3 content...",
       isVisible: false,
     },
     {
       id: 4,
-      concept: "Hello",
+      concept: "concept 4",
       content: "Article 3 content...",
       isVisible: false,
     },
     {
       id: 5,
-      concept: "Hello",
+      concept: "concept 5",
       content: "Article 3 content...",
       isVisible: false,
     },
